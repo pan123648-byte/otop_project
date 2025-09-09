@@ -11,9 +11,10 @@
         h1, h2 { color: #2c5b4c; }
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        button { padding: 12px 20px; background-color: #2c5b4c; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px; }
-        #logout-btn { background-color: #d9534f; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-family: 'Sarabun', sans-serif; font-size: 1rem; }
+        button { padding: 12px 20px; background-color: #2c5b4c; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px; transition: background-color 0.3s; }
+        button:hover { background-color: #1e3c32; }
+        #logout-btn { background-color: #d9534f; margin-left: 10px; }
     </style>
 </head>
 <body>
@@ -21,6 +22,7 @@
         <h1>หน้าจัดการสินค้า</h1>
         <div id="admin-content" style="display:none;">
             <h2>เพิ่มสินค้าใหม่</h2>
+            <!-- [FIXED] เพิ่ม id="add-product-form" ให้กับ form -->
             <form id="add-product-form">
                 <div class="form-group">
                     <label for="name">ชื่อสินค้า</label>
@@ -42,9 +44,11 @@
                     <label for="location_gps">พิกัด (เช่น 16.4, 103.5)</label>
                     <input type="text" id="location_gps" required>
                 </div>
+                <!-- [FIXED] เพิ่ม type="submit" ให้กับ button -->
                 <button type="submit">เพิ่มสินค้า</button>
             </form>
-            <hr>
+            <hr style="margin-top: 20px;">
+            <a href="/index.html"><button type="button">กลับหน้าหลัก</button></a>
             <button id="logout-btn">ออกจากระบบ</button>
         </div>
         <p id="loading-msg">กำลังตรวจสอบสิทธิ์ กรุณารอสักครู่...</p>
@@ -52,19 +56,16 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // "ยาม" จะขอดูบัตรพนักงานก่อน
             const token = localStorage.getItem('token');
             if (!token) {
                 alert('กรุณาเข้าสู่ระบบก่อนเข้าถึงหน้านี้');
-                window.location.href = '/login.html'; // ถ้าไม่มีบัตร ไล่กลับไปหน้า login
+                window.location.href = '/login.html';
                 return;
             }
             
-            // ถ้ามีบัตร ก็แสดงเนื้อหา
             document.getElementById('loading-msg').style.display = 'none';
             document.getElementById('admin-content').style.display = 'block';
 
-            // ทำให้ฟอร์มเพิ่มสินค้าทำงาน
             document.getElementById('add-product-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const product = {
@@ -75,23 +76,33 @@
                     location_gps: document.getElementById('location_gps').value
                 };
 
-                // "โทร" ไปหาหลังร้านที่ /api/products พร้อมแสดง "บัตรพนักงาน"
-                const response = await fetch('/api/products', {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}` 
-                    },
-                    body: JSON.stringify(product)
-                });
-                const data = await response.json();
-                alert(data.message);
-                if(response.ok) document.getElementById('add-product-form').reset();
+                try {
+                    const response = await fetch('/api/products', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}` 
+                        },
+                        body: JSON.stringify(product)
+                    });
+                    
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || 'เกิดข้อผิดพลาดบางอย่าง');
+                    }
+
+                    alert(data.message);
+                    document.getElementById('add-product-form').reset();
+                
+                } catch (error) {
+                    console.error('Add Product Error:', error);
+                    alert('เพิ่มสินค้าล้มเหลว: ' + error.message);
+                }
             });
             
-            // ทำให้ปุ่ม Logout ทำงาน
             document.getElementById('logout-btn').addEventListener('click', () => {
-                localStorage.removeItem('token'); // ทำลายบัตรพนักงาน
+                localStorage.removeItem('token');
                 alert('ออกจากระบบสำเร็จ');
                 window.location.href = '/index.html';
             });
