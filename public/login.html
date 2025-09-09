@@ -6,7 +6,8 @@
     <title>เข้าสู่ระบบ / สมัครสมาชิก</title>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Sarabun', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        body { font-family: 'Sarabun', sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .form-wrapper { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
         .form-container { background-color: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
         h2 { color: #2c5b4c; }
         .form-group { margin-bottom: 15px; text-align: left; }
@@ -17,7 +18,7 @@
     </style>
 </head>
 <body>
-    <div style="display: flex; gap: 20px;">
+    <div class="form-wrapper">
         <div class="form-container">
             <h2>สมัครสมาชิก</h2>
             <form id="register-form">
@@ -50,46 +51,64 @@
     </div>
 
     <script>
-        // --- สคริปต์สำหรับ "สมัครสมาชิก" ---
+        // --- สคริปต์สำหรับ "สมัครสมาชิก" (พร้อม Error Handling) ---
         document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
 
-            // "โทร" ไปหาหลังร้านที่ /api/register
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-            const data = await response.json();
-            alert(data.message); // แสดงข้อความตอบกลับจากหลังร้าน
-            if (response.ok) {
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    // ถ้า Server ตอบกลับมาว่า Error ให้แสดงข้อความจาก Server
+                    throw new Error(data.message || 'เกิดข้อผิดพลาดบางอย่าง');
+                }
+
+                alert(data.message);
                 document.getElementById('register-form').reset();
+
+            } catch (error) {
+                console.error('Registration Error:', error);
+                alert('สมัครสมาชิกล้มเหลว: ' + error.message);
             }
         });
 
-        // --- สคริปต์สำหรับ "เข้าสู่ระบบ" ---
+        // --- สคริปต์สำหรับ "เข้าสู่ระบบ" (พร้อม Error Handling) ---
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
 
-            // "โทร" ไปหาหลังร้านที่ /api/login
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-            const data = await response.json();
-            
-            if (data.accessToken) {
-                // ถ้าล็อกอินสำเร็จ ให้เก็บ "บัตรพนักงาน" (Token) ไว้ในเครื่อง
-                localStorage.setItem('token', data.accessToken);
-                alert('เข้าสู่ระบบสำเร็จ!');
-                window.location.href = '/admin.html'; // ไปยังหน้าจัดการสินค้า
-            } else {
-                alert(data.message); // แสดงข้อความ Error
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'เกิดข้อผิดพลาดบางอย่าง');
+                }
+
+                if (data.accessToken) {
+                    localStorage.setItem('token', data.accessToken);
+                    alert('เข้าสู่ระบบสำเร็จ!');
+                    window.location.href = '/admin.html';
+                } else {
+                    // กรณีที่ไม่มี Token ส่งกลับมา แต่ไม่มี Error (เผื่อไว้)
+                    throw new Error('ไม่ได้รับ Token จากเซิร์ฟเวอร์');
+                }
+
+            } catch (error) {
+                console.error('Login Error:', error);
+                alert('เข้าสู่ระบบล้มเหลว: ' + error.message);
             }
         });
     </script>
