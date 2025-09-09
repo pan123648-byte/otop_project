@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>นวัตกรรมการท่องเที่ยว | กาฬสินธุ์</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            background-image: url('img/img4.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header / Nav Bar */
+        header {
+            background-color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c5b4c;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
+        }
+        .auth-buttons a {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        .login-btn {
+            background-color: transparent;
+            border: 2px solid #2c5b4c;
+            color: #2c5b4c;
+        }
+        .signup-btn {
+            background-color: #2c5b4c;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1624624132214-a28a50ea24b5?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .hero h1 { font-size: 48px; margin-bottom: 10px; }
+        .hero p { font-size: 20px; }
+
+        /* Content Sections */
+        .section { padding: 60px 0; }
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #111;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .section-title-wrapper {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card-link { text-decoration: none; color: inherit; }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 20px; flex-grow: 1; }
+        .card-content h3 { margin-top: 0; color: #000; }
+        .card-content p { color: #111; }
+
+        /* Review Summary */
+        .review-summary {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .stars { color: #ffc107; }
+        .review-text .score { font-weight: bold; color: #111; }
+        .review-text .review-count { color: #333; margin-left: 8px; }
+
+        /* Video Container */
+        .video-container { text-align: center; margin-top: 40px; }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2c5b4c;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s;
+            z-index: 1000;
+        }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+        
+        /* Fade-in Effect */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        
+        /* Footer */
+        footer {
+            background-color: #2c5b4c;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* --- Chatbot Styles --- */
+        #planner-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #ff5722;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+        #planner-icon:hover { transform: scale(1.1) rotate(20deg); }
+        #planner-window {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 370px;
+            max-width: 90vw;
+            background-color: #f4f7f6;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-in-out;
+        }
+        #planner-window.open { transform: scale(1); }
+        .planner-header {
+            background-color: #ff5722;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .planner-header h3 { margin: 0; font-size: 18px; }
+        .planner-body { padding: 20px; max-height: 400px; overflow-y: auto; }
+        .bot-question p {
+            background-color: #ffffff;
+            color: black;
+            padding: 12px 18px;
+            border-radius: 20px 20px 20px 5px;
+            display: inline-block;
+            max-width: 90%;
+            margin: 5px 0 15px 0;
+            line-height: 1.5;
+        }
+        .planner-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .planner-options button {
+            background-color: white;
+            border: 2px solid #ff5722;
+            color: #ff5722;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .planner-options button:hover { background-color: #ff5722; color: white; }
+        .planner-result { border-top: 2px solid #ddd; margin-top: 20px; padding-top: 20px; }
+        .planner-result h4 { color: #ff5722; text-align: center; font-size: 20px; }
+        .planner-result .budget { text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+        .planner-result .budget small { font-size: 14px; font-weight: normal; color: #555; }
+        .planner-result ul { list-style: none; padding: 0; }
+        .planner-result li { background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 5px solid #ff5722; }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-to-top">▲</a>
+
+    <header>
+        <div class="logo">K-Tourism</div>
+        <nav>
+            <a href="#attractions">ที่ท่องเที่ยว</a>
+            <a href="#restaurants">ร้านอาหาร</a>
+            <a href="#accommodations">ห้องพัก</a>
+        </nav>
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn">เข้าสู่ระบบ</a>
+            <a href="login.html" class="signup-btn">สมัครสมาชิก</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>นวัตกรรมการท่องเที่ยว จังหวัดกาฬสินธุ์</h1>
+        <p>สัมผัสมิติใหม่ของการเดินทาง ค้นพบทุกความมหัศจรรย์ด้วยปลายนิ้ว</p>
+    </section>
+
+    <main class="container">
+        <section id="attractions" class="section">
+            <div class="section-title-wrapper">
+                <h2 class="section-title">ที่ท่องเที่ยวแนะนำ</h2>
+            </div>
+            <div class="card-grid">
+                <a href="sirindhorn-museum.html" class="card-link"><div class="card fade-in"><img src="img/img1.jpg" alt="พิพิธภัณฑ์สิรินธร"><div class="card-content"><h3>พิพิธภัณฑ์สิรินธร (ภูกุ้มข้าว)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.8</span><span class="review-count">(1,258 รีวิว)</span></div></div><p>ศูนย์วิจัยไดโนเสาร์และพิพิธภัณฑ์ธรณีวิทยาที่สมบูรณ์ที่สุดในอาเซียน</p></div></div></a>
+                <a href="phra-that-yakhu.html" class="card-link"><div class="card fade-in"><img src="img/img3.jpg" alt="พระธาตุยาคู"><div class="card-content"><h3>พระธาตุยาคู (เมืองฟ้าแดดสงยาง)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.7</span><span class="review-count">(890 รีวิว)</span></div></div><p>เจดีย์สมัยทวารวดีที่ใหญ่ที่สุดในประเทศไทย โบราณสถานที่สำคัญของจังหวัด</p></div></div></a>
+                <a href="wat-wang-kham.html" class="card-link"><div class="card fade-in"><img src="img/img.jpg" alt="วัดวังคำ"><div class="card-content"><h3>วัดวังคำ</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.6</span><span class="review-count">(750 รีวิว)</span></div></div><p>วัดงดงามด้วยสถาปัตยกรรมล้านนาคล้ายวัดเชียงทองในหลวงพระบาง</p></div></div></a>
+                <a href="thepsuda-bridge.html" class="card-link"><div class="card fade-in"><img src="img/img2.jpg" alt="เขื่อนลำปาว"><div class="card-content"><h3>สะพานเทพสุดา (เขื่อนลำปาว)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><div class="review-text"><span class="score">4.9</span><span class="review-count">(2,134 รีวิว)</span></div></div><p>สะพานข้ามน้ำจืดที่ยาวที่สุดในประเทศ ชมวิวทิวทัศน์สวยงามของเขื่อนลำปาว</p></div></div></a>
+                <a href="phu-po-dinosaur-park.html" class="card-link"><div class="card fade-in"><img src="https://www.khaosod.co.th/wp-content/uploads/2020/11/dino.jpg" alt="อุทยานไดโนเสาร์ภูโป"><div class="card-content"><h3>อุทยานไดโนเสาร์ภูโป</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.3</span><span class="review-count">(420 รีวิว)</span></div></div><p>แหล่งค้นพบรอยตีนไดโนเสาร์ที่ชัดเจนที่สุดแห่งหนึ่งของไทย</p></div></div></a>
+                <a href="phrae-wa-silk-village.html" class="card-link"><div class="card fade-in"><img src="https://www.m-culture.go.th/kalasin/images/article/news1459/n2020_1459_1.jpg" alt="หมู่บ้านทอผ้าไหมแพรวาบ้านโพน"><div class="card-content"><h3>หมู่บ้านทอผ้าไหมแพรวา</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.6</span><span class="review-count">(515 รีวิว)</span></div></div><p>แหล่งกำเนิดของ "แพรวา ราชินีแห่งไหม" ผ้าไหมทอมือลายโบราณ</p></div></div></a>
+                <a href="dok-ket-beach.html" class="card-link"><div class="card fade-in"><img src="https://s3.ap-southeast-1.amazonaws.com/o77-travel-asia-static/p/5721/2048x1152/2016-01-20-14-36-54.jpg" alt="หาดดอกเกด"><div class="card-content"><h3>หาดดอกเกด (เขื่อนลำปาว)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.4</span><span class="review-count">(1,580 รีวิว)</span></div></div><p>"ทะเลอีสาน" ที่ชาวกาฬสินธุ์นิยมมาพักผ่อน มีกิจกรรมทางน้ำมากมาย</p></div></div></a>
+                <a href="pha-sawoei-viewpoint.html" class="card-link"><div class="card fade-in"><img src="https://i.ytimg.com/vi/bX7j-eY4J90/maxresdefault.jpg" alt="ผาเสวย"><div class="card-content"><h3>ผาเสวย</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.2</span><span class="review-count">(350 รีวิว)</span></div></div><p>จุดชมวิวบนเทือกเขาภูพาน รอยต่อระหว่างกาฬสินธุ์และสกลนคร</p></div></div></a>
+                <a href="wat-phutthanimit.html" class="card-link"><div class="card fade-in"><img src="https://www.thongthailand.com/wp-content/uploads/2019/07/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%9E%E0%B8%B8%E0%B8%97%E0%B8%98%E0%B8%99%E0%B8%B4%E0%B8%A1%E0%B8%B4%E0%B8%95-1.jpg" alt="วัดพุทธนิมิต"><div class="card-content"><h3>วัดพุทธนิมิต (ภูค่าว)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.7</span><span class="review-count">(680 รีวิว)</span></div></div><p>วัดเก่าแก่ที่ประดิษฐานพระพุทธไสยาสน์แกะสลักบนแผ่นผา</p></div></div></a>
+                <a href="kaeng-don-klang-park.html" class="card-link"><div class="card fade-in"><img src="https://thailandtourismdirectory.go.th/th/file/get/file/20180905094248100000000020180905094851.jpg" alt="สวนสาธารณะแก่งดอนกลาง"><div class="card-content"><h3>สวนสาธารณะแก่งดอนกลาง</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.3</span><span class="review-count">(950 รีวิว)</span></div></div><p>สวนสาธารณะและบึงขนาดใหญ่ใจกลางเมือง เป็นปอดของชาวกาฬสินธุ์</p></div></div></a>
+                <a href="phu-faek-forest-park.html" class="card-link"><div class="card fade-in"><img src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03001928_1.jpeg" alt="วนอุทยานภูแฝก"><div class="card-content"><h3>วนอุทยานภูแฝก</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.2</span><span class="review-count">(310 รีวิว)</span></div></div><p>แหล่งพบรอยเท้าไดโนเสาร์กินเนื้อขนาดใหญ่ที่สุดในประเทศไทย</p></div></div></a>
+                <a href="wat-pa-matchimawat.html" class="card-link"><div class="card fade-in"><img src="https://www.touronthai.com/gallery/photo/47010014/watpama.jpg" alt="วัดป่ามัชฌิมาวาส"><div class="card-content"><h3>วัดป่ามัชฌิมาวาส</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.5</span><span class="review-count">(250 รีวิว)</span></div></div><p>วัดป่ากรรมฐานที่มีเจดีย์งดงาม และเป็นที่ประดิษฐานพระบรมสารีริกธาตุ</p></div></div></a>
+                <a href="lam-pao-dam.html" class="card-link"><div class="card fade-in"><img src="https://i.ytimg.com/vi/bX1_B3M-q2k/maxresdefault.jpg" alt="สันเขื่อนลำปาว"><div class="card-content"><h3>สันเขื่อนลำปาว</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.4</span><span class="review-count">(1,800 รีวิว)</span></div></div><p>ถนนบนสันเขื่อนดินที่ยาวที่สุดแห่งหนึ่งในไทย สำหรับพักผ่อนและชมวิว</p></div></div></a>
+                <a href="kalasin-museum.html" class="card-link"><div class="card fade-in"><img src="https://www.museumthailand.com/upload/cover/M0000572.jpg" alt="พิพิธภัณฑ์ของดีเมืองกาฬสินธุ์"><div class="card-content"><h3>พิพิธภัณฑ์ของดีเมืองกาฬสินธุ์</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">3.9</span><span class="review-count">(120 รีวิว)</span></div></div><p>แหล่งรวบรวมและจัดแสดงศิลปวัตถุและของดีประจำจังหวัดกาฬสินธุ์</p></div></div></a>
+            </div>
+        </section>
+
+        <section id="restaurants" class="section">
+            <div class="section-title-wrapper">
+                 <h2 class="section-title">ร้านอาหารและคาเฟ่</h2>
+            </div>
+            <div class="card-grid">
+                <a href="ploen-kalasin.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/1920x0/2021/04/09/b6da812543314488b0a9f5d341cc2478.jpg" alt="ร้านอาหาร"><div class="card-content"><h3>เพลิน กาฬสินธุ์</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.4</span><span class="review-count">(210 รีวิว)</span></div></div><p>ร้านอาหารบรรยากาศดี มีดนตรีสด พร้อมเมนูหลากหลายใจกลางเมือง</p></div></div></a>
+                <a href="malafe-cafe.html" class="card-link"><div class="card fade-in"><img src="https://lh3.googleusercontent.com/p/AF1QipM5K3QcT6c0F4fVz-qBq7X-8Q0qC6B-O9lT9e7w=s1360-w1360-h1020" alt="ร้านกาแฟ"><div class="card-content"><h3>Malafe' Cafe'</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.6</span><span class="review-count">(180 รีวิว)</span></div></div><p>คาเฟ่สไตล์มินิมอลชื่อดังในอำเภอกมลาไสย พร้อมเครื่องดื่มและเบเกอรี่</p></div></div></a>
+                <a href="somtum-muangnamdam.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/1920x0/2020/09/26/5144b6134b6b47c0a69a2d2127fa0075.jpg" alt="ร้านส้มตำ"><div class="card-content"><h3>ส้มตำเมืองน้ำดำ</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.5</span><span class="review-count">(320 รีวิว)</span></div></div><p>ร้านอาหารอีสานรสแซ่บ เมนูเด็ดที่ต้องลองเมื่อมาเยือนกาฬสินธุ์</p></div></div></a>
+                <a href="baansuan-shabu.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/1920x0/2022/10/12/f2a356064f204368b6b1076f2f2560e2.jpg" alt="บ้านสวน ชาบู&ปิ้งย่าง"><div class="card-content"><h3>บ้านสวน ชาบู&ปิ้งย่าง</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.5</span><span class="review-count">(195 รีวิว)</span></div></div><p>ร้านบุฟเฟ่ต์ชาบูและปิ้งย่างยอดนิยม บรรยากาศเหมือนนั่งทานในสวน</p></div></div></a>
+                <a href="the-loft-cafe.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/1920x0/2018/11/04/3e3907c089204859bc0df53f5383a151.jpg" alt="The Loft Cafe Kalasin"><div class="card-content"><h3>The Loft Cafe Kalasin</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.3</span><span class="review-count">(150 รีวิว)</span></div></div><p>คาเฟ่สไตล์ลอฟท์ใจกลางเมือง บรรยากาศเท่ๆ ดิบๆ สำหรับคอกาแฟ</p></div></div></a>
+                <a href="vipa-plasom.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/1920x0/2021/04/09/0b8b5443314b4e31846b45a491d90615.jpg" alt="วิภา ปลาส้ม"><div class="card-content"><h3>วิภา ปลาส้ม</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.7</span><span class="review-count">(450 รีวิว)</span></div></div><p>ร้านของฝากและร้านอาหารขึ้นชื่อเรื่องปลาส้มรสเด็ดประจำจังหวัด</p></div></div></a>
+                <a href="good-afternoon-cafe.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/1920x0/2020/12/26/51e39b23b16d41869e5d1a84f4f71a7d.jpg" alt="Good Afternoon Cafe"><div class="card-content"><h3>Good Afternoon Cafe</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.4</span><span class="review-count">(180 รีวิว)</span></div></div><p>คาเฟ่บรรยากาศอบอุ่น ตกแต่งสวยงาม มีเครื่องดื่มและเค้กหลากหลาย</p></div></div></a>
+                <a href="rimpao-cafe.html" class="card-link"><div class="card fade-in"><img src="https://10619-2.s.cdn12.com/rests/original/108_509749145.jpg" alt="ริมปาวคาเฟ่"><div class="card-content"><h3>ริมปาวคาเฟ่</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">3.9</span><span class="review-count">(210 รีวิว)</span></div></div><p>คาเฟ่ริมน้ำ บรรยากาศดี เหมาะสำหรับการพักผ่อนหย่อนใจยามบ่าย</p></div></div></a>
+                <a href="khao-kaeng-jaetum.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/1920x0/2021/04/10/c3c95973e8a74e6c8845e22791781c81.jpg" alt="ข้าวแกงเจ้ตุ่ม"><div class="card-content"><h3>ข้าวแกงเจ้ตุ่ม (โต้รุ่ง)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.2</span><span class="review-count">(160 รีวิว)</span></div></div><p>ร้านข้าวแกงรอบดึกขวัญใจคนท้องถิ่น มีกับข้าวให้เลือกหลากหลาย</p></div></div></a>
+                <a href="kuay-tiew-ruea-ayutthaya.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/1920x0/2021/04/09/8d9c288f3f824b08b3c8d19a2e6e2f1f.jpg" alt="ก๋วยเตี๋ยวเรืออยุธยา"><div class="card-content"><h3>ก๋วยเตี๋ยวเรืออยุธยา</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.5</span><span class="review-count">(300 รีวิว)</span></div></div><p>ร้านก๋วยเตี๋ยวเรือรสชาติเข้มข้น จัดจ้านตามแบบฉบับอยุธยาแท้ๆ</p></div></div></a>
+            </div>
+        </section>
+
+        <section id="accommodations" class="section">
+             <div class="section-title-wrapper">
+                <h2 class="section-title">ที่พักและโรงแรม</h2>
+            </div>
+            <div class="card-grid">
+                <a href="#" class="card-link"><div class="card fade-in"><img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/300435133.jpg?k=b4e9e04870f074d618d453723db5a88c3a19fd3b65288b8fa2d4d9830da0f283&o=&hp=1" alt="โรงแรม"><div class="card-content"><h3>โรงแรมริมปาว</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.1</span><span class="review-count">(450 รีวิว)</span></div></div><p>โรงแรมมาตรฐานใจกลางเมือง เดินทางสะดวกสบาย</p></div></div></a>
+                <a href="#" class="card-link"><div class="card fade-in"><img src="https://media-cdn.tripadvisor.com/media/photo-s/1a/05/73/0c/supak-hotel.jpg" alt="โรงแรม"><div class="card-content"><h3>โรงแรมสุภัค</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">3.7</span><span class="review-count">(310 รีวิว)</span></div></div><p>ที่พักสะอาด ราคาเป็นมิตร ใกล้สถานีขนส่งกาฬสินธุ์</p></div></div></a>
+                <a href="#" class="card-link"><div class="card fade-in"><img src="https://www.agoda.com/wp-content/uploads/2019/02/11/22/family-friendly-hotels-in-thailand-kalasin.jpg" alt="รีสอร์ท"><div class="card-content"><h3>ราชพฤกษ์ รีสอร์ท</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.0</span><span class="review-count">(280 รีวิว)</span></div></div><p>รีสอร์ทบรรยากาศเงียบสงบ เหมาะสำหรับการพักผ่อน</p></div></div></a>
+                <a href="charm-boutique-resort.html" class="card-link"><div class="card fade-in"><img src="https://pix10.agoda.net/hotelImages/287/287313/287313_14070216170020147631.jpg?ca=8&ce=1&s=1024x768" alt="โรงแรมชาร์ม บูติค รีสอร์ท"><div class="card-content"><h3>โรงแรมชาร์ม บูติค รีสอร์ท</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.6</span><span class="review-count">(250 รีวิว)</span></div></div><p>โรงแรมสไตล์บูติคที่ออกแบบอย่างมีเอกลักษณ์ มีสระว่ายน้ำ</p></div></div></a>
+                <a href="dino-inn-hotel.html" class="card-link"><div class="card fade-in"><img src="https://pix10.agoda.net/hotelImages/647/647614/647614_14042316100019183416.jpg?ca=9&ce=1&s=1024x768" alt="โรงแรมไดโนอินน์"><div class="card-content"><h3>โรงแรมไดโนอินน์</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">3.8</span><span class="review-count">(410 รีวิว)</span></div></div><p>โรงแรมราคาประหยัด ตั้งอยู่ในทำเลดี เดินทางสะดวก ห้องพักสะอาด</p></div></div></a>
+                <a href="phet-siam-hotel.html" class="card-link"><div class="card fade-in"><img src="https://content.r9cdn.net/rimg/himg/63/c7/b5/leonardo-1447935-KLS_02_P-526233.jpg?width=1200&height=630&crop=true" alt="โรงแรมเพชรสยาม"><div class="card-content"><h3>โรงแรมเพชรสยาม</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">3.6</span><span class="review-count">(280 รีวิว)</span></div></div><p>โรงแรมเก่าแก่ในย่านธุรกิจของเมือง บริการเป็นกันเอง</p></div></div></a>
+                <a href="the-view-resort.html" class="card-link"><div class="card fade-in"><img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/292679262.jpg?k=a26532578502b4859f37213e87564d635037d825c3444a7f0e532a81389a19c7&o=&hp=1" alt="The View Resort"><div class="card-content"><h3>The View Resort</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.0</span><span class="review-count">(190 รีวิว)</span></div></div><p>รีสอร์ทที่มองเห็นวิวทิวเขาและอ่างเก็บน้ำ บรรยากาศเงียบสงบ</p></div></div></a>
+                <a href="sabaidee-boutique-hotel.html" class="card-link"><div class="card fade-in"><img src="https://pix10.agoda.net/hotelImages/2456726/0/b087799b3807d5d72f23f8702c8928e4.jpg?s=1024x768" alt="สบายดี บูติค โฮเทล"><div class="card-content"><h3>สบายดี บูติค โฮเทล</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.2</span><span class="review-count">(215 รีวิว)</span></div></div><p>โรงแรมขนาดเล็ก ตกแต่งอย่างมีสไตล์ ให้ความรู้สึกอบอุ่นเหมือนบ้าน</p></div></div></a>
+                <a href="saengthong-resort.html" class="card-link"><div class="card fade-in"><img src="https://media-cdn.tripadvisor.com/media/photo-s/0d/f9/be/a2/caption.jpg" alt="สวนอาหารและที่พักแสงทอง"><div class="card-content"><h3>สวนอาหารและที่พักแสงทอง</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">3.8</span><span class="review-count">(150 รีวิว)</span></div></div><p>ที่พักและร้านอาหารในที่เดียว สะดวกสบายสำหรับนักเดินทาง</p></div></div></a>
+                <a href="baansuan-sukjai-resort.html" class="card-link"><div class="card fade-in"><img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/498801910.jpg?k=3f27320b9875f2b8a07c3905e94b1509a2503233c46e03316938a9a2a537f903&o=&hp=1" alt="บ้านสวนสุขใจ รีสอร์ท"><div class="card-content"><h3>บ้านสวนสุขใจ รีสอร์ท</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.1</span><span class="review-count">(188 รีวิว)</span></div></div><p>รีสอร์ทสไตล์บ้านสวน บรรยากาศร่มรื่น เป็นส่วนตัว</p></div></div></a>
+            </div>
+        </section>
+    </main>
+
+    <div class="video-container"> 
+        <iframe 
+            width="560" 
+            height="315" 
+            src="https://www.youtube.com/embed/Or3TOTkaDYw?si=WC_dOBXbqLoEQfVc&start=15"
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <footer>
+        <p>© 2025 Kalasin Tourism Innovation Project | จัดทำเพื่อการศึกษา</p>
+    </footer>
+
+    <div id="planner-icon">🗺️</div>
+    <div id="planner-window">
+        <div class="planner-header">
+            <h3>น้องไดโนช่วยวางแผนเที่ยว!</h3>
+        </div>
+        <div class="planner-body" id="planner-body"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fade-in effect
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            if (!!window.IntersectionObserver) {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                fadeInElements.forEach(el => { observer.observe(el); });
+            }
+
+            // Back to top button
+            const backToTopButton = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+
+            // Chatbot Planner
+            const plannerIcon = document.getElementById('planner-icon');
+            const plannerWindow = document.getElementById('planner-window');
+            const plannerBody = document.getElementById('planner-body');
+            let currentStep = 0;
+            let userAnswers = {};
+            const questions = [
+                { id: 'days', text: 'สวัสดีครับ! 🦖 อยากให้น้องไดโนช่วยจัดทริปเที่ยวกาฬสินธุ์กี่วันดีครับ?', options: [ { text: '1 วัน (เช้า-เย็น)', value: 1 }, { text: '2 วัน 1 คืน', value: 2 } ] },
+                { id: 'style', text: 'เยี่ยมเลย! แล้วอยากเที่ยวสไตล์ไหนดีครับ? (สไตล์นี้จะใช้ประมาณการค่าใช้จ่ายครับ)', options: [ { text: 'ประหยัด (เน้น Street Food)', value: 'budget' }, { text: 'สบายๆ (ร้านอาหาร+คาเฟ่)', value: 'balanced' }, { text: 'จัดเต็ม (ร้านดัง+ของฝาก)', value: 'luxury' } ] },
+                { id: 'interest', text: 'คำถามสุดท้าย! สนใจเที่ยวแนวไหนเป็นพิเศษครับ?', options: [ { text: 'ไดโนเสาร์และประวัติศาสตร์', value: 'dino_history' }, { text: 'ธรรมชาติและคาเฟ่ชิลๆ', value: 'nature_cafe' } ] }
+            ];
+
+            plannerIcon.addEventListener('click', () => {
+                plannerWindow.classList.toggle('open');
+                if (plannerWindow.classList.contains('open') && currentStep === 0) {
+                    startConversation();
+                }
+            });
+
+            function startConversation() {
+                currentStep = 0;
+                userAnswers = {};
+                plannerBody.innerHTML = '';
+                askQuestion();
+            }
+
+            function askQuestion() {
+                if (currentStep < questions.length) {
+                    const q = questions[currentStep];
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'bot-question';
+                    questionDiv.innerHTML = `<p>${q.text}</p>`;
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'planner-options';
+                    q.options.forEach(option => {
+                        const button = document.createElement('button');
+                        button.innerText = option.text;
+                        button.onclick = () => handleAnswer(q.id, option.value);
+                        optionsDiv.appendChild(button);
+                    });
+                    questionDiv.appendChild(optionsDiv);
+                    plannerBody.appendChild(questionDiv);
+                    plannerBody.scrollTop = plannerBody.scrollHeight;
+                } else {
+                    generatePlan();
+                }
+            }
+
+            function handleAnswer(id, value) {
+                userAnswers[id] = value;
+                currentStep++;
+                const allButtons = plannerBody.querySelectorAll('.planner-options button');
+                allButtons.forEach(btn => { if (!btn.parentElement.previousElementSibling.innerText.includes(questions[currentStep-1].text)) { btn.disabled = true; }});
+                askQuestion();
+            }
+
+            function generatePlan() {
+                const costs = { food_per_day: { budget: 300, balanced: 600, luxury: 1000 }, travel_per_day: { budget: 200, balanced: 400, luxury: 600 }, accommodation: { budget: 0, balanced: 800, luxury: 1500 }, activities: { budget: 100, balanced: 300, luxury: 500 } };
+                const days = userAnswers.days;
+                const style = userAnswers.style;
+                let totalBudget = (costs.food_per_day[style] + costs.travel_per_day[style] + costs.activities[style]) * days;
+                if (days === 2) { totalBudget += costs.accommodation[style]; }
+                const itineraries = { dino_history: { day1: ["ตอนเช้า: พิพิธภัณฑ์สิรินธร", "ตอนบ่าย: พระธาตุยาคู"], day2: ["ตอนเช้า: วัดพุทธนิมิต (ภูค่าว)", "ตอนบ่าย: หมู่บ้านทอผ้าไหมแพรวา"] }, nature_cafe: { day1: ["ตอนเช้า: สะพานเทพสุดา", "ตอนบ่าย: หาดดอกเกด", "ตอนเย็น: นั่งชิลล์ที่ Malafe' Cafe'"], day2: ["ตอนเช้า: ผาเสวย", "ตอนบ่าย: บ้านมอ ดีฮัก (คาเฟ่ริมทุ่งนา)"] } };
+                const selectedItinerary = itineraries[userAnswers.interest];
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'planner-result';
+                let itineraryHtml = selectedItinerary.day1.map(item => `<li>${item}</li>`).join('');
+                if (days === 2 && selectedItinerary.day2) { itineraryHtml += selectedItinerary.day2.map(item => `<li>${item}</li>`).join(''); }
+                resultDiv.innerHTML = `<h4>นี่คือแผนเที่ยวสำหรับคุณ!</h4><div class="budget">ประมาณการค่าใช้จ่าย: ฿${totalBudget.toLocaleString()}<br><small>(ต่อคน, ไม่รวมค่าเดินทางมาจังหวัด)</small></div><h4>แผนการเดินทาง:</h4><ul>${itineraryHtml}</ul>`;
+                const restartButton = document.createElement('button');
+                restartButton.innerText = 'วางแผนใหม่';
+                restartButton.style.cssText = 'width: 100%; border: none; padding: 10px; background-color: #ff5722; color: white; border-radius: 20px; font-size: 16px; margin-top: 20px; cursor: pointer;';
+                restartButton.onclick = startConversation;
+                resultDiv.appendChild(restartButton);
+                plannerBody.appendChild(resultDiv);
+                plannerBody.scrollTop = plannerBody.scrollHeight;
+            }
+        });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered', reg))
+                    .catch(err => console.log('Service Worker not registered', err));
+            });
+        }
+    </script>
+</body>
+</html>

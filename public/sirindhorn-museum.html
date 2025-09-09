@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียด: พิพิธภัณฑ์สิรินธร</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* --- General --- */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* --- Parallax Header --- */
+        .parallax-header {
+            height: 60vh;
+            background-image: url('https://www.scimath.org/images/stories/flexicontent/item_12024_field_65/l_12024_image_02-1.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .parallax-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .header-title {
+            color: white;
+            font-size: 4em;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            z-index: 1;
+        }
+
+        /* --- Content Container --- */
+        .content-container {
+            max-width: 900px;
+            margin: -80px auto 20px auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Info Boxes --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        .info-box {
+            text-align: center;
+        }
+        .info-box i {
+            font-size: 2em;
+            color: #2c5b4c;
+            margin-bottom: 10px;
+        }
+        .info-box h3 {
+            margin: 0 0 5px 0;
+            font-size: 1em;
+            color: #555;
+        }
+        .info-box p {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #111;
+        }
+
+        /* --- Main Text & Other Sections --- */
+        .detail-text {
+            line-height: 1.9;
+            font-size: 1.1em;
+            text-align: justify;
+        }
+        .gallery h2, .map-container h2, .section-title {
+            text-align: center;
+            color: #2c5b4c;
+            font-size: 2em;
+            margin-top: 40px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .gallery-grid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .gallery-grid img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .map-container { margin-top: 30px; }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: #2c5b4c;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .section { padding-top: 30px; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card { background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.2s ease; }
+        .card:hover { transform: translateY(-5px); }
+        .card-link { text-decoration: none; color: inherit; }
+        .card img { width: 100%; height: 150px; object-fit: cover; }
+        .card-content { padding: 15px; }
+        .card-content h3 { margin-top: 0; font-size: 1em; }
+        .card-content p { color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <header class="parallax-header" style="background-image: url('https://www.scimath.org/images/stories/flexicontent/item_12024_field_65/l_12024_image_02-1.jpg');">
+        <h1 class="header-title">พิพิธภัณฑ์สิรินธร</h1>
+    </header>
+
+    <main class="content-container">
+        
+        <div class="info-grid">
+            <div class="info-box">
+                <i class="fas fa-spinner fa-spin"></i> <!-- ไอคอนเริ่มต้น (หมุนๆ) -->
+                <h3>สภาพอากาศ</h3>
+                <p id="weather-info">กำลังโหลด...</p>
+            </div>
+            <div class="info-box">
+                <i class="fas fa-clock"></i>
+                <h3>เวลาทำการ</h3>
+                <p>9:00 - 17:00 น.</p>
+            </div>
+            <div class="info-box">
+                <i class="fas fa-door-closed"></i>
+                <h3>วันหยุด</h3>
+                <p>วันจันทร์</p>
+            </div>
+            <div class="info-box">
+                <i class="fas fa-ticket-alt"></i>
+                <h3>ค่าเข้าชม</h3>
+                <p>ผู้ใหญ่ 100 บาท</p>
+            </div>
+        </div>
+
+        <p class="detail-text">
+            พิพิธภัณฑ์สิรินธร หรือ ศูนย์วิจัยไดโนเสาร์ภูกุ้มข้าว เป็นพิพิธภัณฑ์ธรณีวิทยาที่เน้นจัดแสดงเรื่องราวเกี่ยวกับไดโนเสาร์และซากดึกดำบรรพ์ที่ค้นพบในประเทศไทย ถือเป็นศูนย์วิจัยเกี่ยวกับไดโนเสาร์และพิพิธภัณฑ์ไดโนเสาร์ที่สมบูรณ์แบบและใหญ่ที่สุดในเอเชียตะวันออกเฉียงใต้
+        </p>
+
+        <div class="gallery">
+            <h2>แกลเลอรี</h2>
+            <div class="gallery-grid">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/dc/Dinosaur_%40%E0%B8%9E%E0%B8%B4%E0%B8%9E%E0%B8%B4%E0%B8%98%E0%B8%A0%E0%B8%B1%E0%B8%93%E0%B8%91%E0%B9%8C%E0%B8%AA%E0%B8%B4%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%98%E0%B8%A3_%2CSirindhorn_Museum_%2CKalasin%2CThailand_-_panoramio.jpg" alt="Gallery image 1">
+                <img src="https://mpics.mgronline.com/pics/Images/558000003769501.JPEG" alt="Gallery image 2">
+                <img src="https://www.esanart.com/travel/%E0%B8%AA%E0%B8%B4%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%98%E0%B8%A3/img/03.jpg" alt="Gallery image 3">
+            </div>
+        </div>
+
+        <div class="map-container">
+            <h2>แผนที่และการเดินทาง</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3821.671039901318!2d103.5215470751494!3d16.69333708408025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3122d2de98051293%3A0x4697d1b9cf1a7d86!2z4Lie4Li04Lie4Li04LiY4Lig4Lix4LiT4LiR4LmM4Liq4Li04Lij4Li04LiZ4LiY4Lij!5e0!3m2!1sth!2sth!4v1757249769992!5m2!1sth!2sth" width="100%" height="400" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <section id="recommendations-section" class="section">
+            <h2 class="section-title">สถานที่อื่นที่คุณอาจจะชอบ</h2>
+            <div id="recommendations-grid" class="card-grid"></div>
+        </section>
+
+        <a href="index.html" class="back-link">← กลับสู่หน้าหลัก</a>
+    </main>
+    
+    <script>
+        // --- ฐานข้อมูลหลัก (ฉบับสมบูรณ์) ---
+        const allLocations = [
+            { id: 'sirindhorn-museum', name: 'พิพิธภัณฑ์สิรินธร', lat: 16.6933, lon: 103.5215, file: 'sirindhorn-museum.html', image: 'img/img1.jpg', shortDesc: 'ศูนย์วิจัยไดโนเสาร์ที่สมบูรณ์ที่สุดในอาเซียน', tags: ['ไดโนเสาร์', 'พิพิธภัณฑ์', 'ครอบครัว', 'ความรู้'] },
+            { id: 'phra-that-yakhu', name: 'พระธาตุยาคู', lat: 16.3191, lon: 103.5153, file: 'phra-that-yakhu.html', image: 'img/img3.jpg', shortDesc: 'เจดีย์สมัยทวารวดีที่ใหญ่ที่สุดในประเทศไทย', tags: ['วัด', 'ประวัติศาสตร์', 'โบราณสถาน', 'วัฒนธรรม'] },
+            { id: 'thepsuda-bridge', name: 'สะพานเทพสุดา', lat: 16.7128, lon: 103.4565, file: 'thepsuda-bridge.html', image: 'img/img2.jpg', shortDesc: 'สะพานข้ามน้ำจืดที่ยาวที่สุดในประเทศ', tags: ['ธรรมชาติ', 'ชมวิว', 'ถ่ายรูป', 'ริมน้ำ'] },
+            { id: 'wat-wang-kham', name: 'วัดวังคำ', lat: 16.7570, lon: 104.0531, file: 'wat-wang-kham.html', image: 'https://isan.tiewrussia.com/wat_wangkam/images/015.jpg', shortDesc: 'งดงามด้วยสถาปัตยกรรมล้านนาคล้ายวัดเชียงทอง', tags: ['วัด', 'วัฒนธรรม', 'สถาปัตยกรรม', 'ถ่ายรูป'] },
+            { id: 'phu-po-dinosaur-park', name: 'อุทยานไดโนเสาร์ภูโป',lat: 16.664462012426675, lon: 103.51740172212008, file: 'phu-po-dinosaur-park.html', image: 'https://kalasin.city/wp-content/uploads/2022/10/%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7%E0%B8%81%E0%B8%B2%E0%B8%AC%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%98%E0%B8%B8%E0%B9%8C_%E0%B8%9E%E0%B8%B4%E0%B8%9E%E0%B8%B4%E0%B8%98%E0%B8%A0%E0%B8%B1%E0%B8%93%E0%B8%91%E0%B9%8C%E0%B8%AA%E0%B8%B4%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%98%E0%B8%A3-05-600x400.jpg', shortDesc: 'แหล่งค้นพบรอยตีนไดโนเสาร์อายุกว่า 140 ล้านปี', tags: ['ไดโนเสาร์', 'ธรรมชาติ', 'เดินป่า', 'ครอบครัว'] },
+            { id: 'phrae-wa-silk-village', name: 'หมู่บ้านทอผ้าไหมแพรวา',lat: 16.869397987622126, lon: 103.61749043146216, file: 'phrae-wa-silk-village.html', image: 'https://do.lnwfile.com/_/do/_raw/jz/xq/w8.png', shortDesc: 'แหล่งกำเนิดของ "แพรวา ราชินีแห่งไหม"', tags: ['วัฒนธรรม', 'ผ้าไหม', 'หมู่บ้าน', 'ของฝาก'] },
+            { id: 'wat-phutthanimit', name: 'วัดพุทธนิมิต (ภูค่าว)',lat: 16.72897411293743, lon: 103.5693987725203, file: 'wat-phutthanimit.html', image: 'https://mpics.mgronline.com/pics/Images/561000004305306.JPEG', shortDesc: 'ประดิษฐานพระพุทธไสยาสน์แกะสลักบนแผ่นผา', tags: ['วัด', 'ประวัติศาสตร์', 'โบราณสถาน', 'ชมวิว'] },
+            { id: 'dok-ket-beach', name: 'หาดดอกเกด',lat: 16.608515398524673, lon: 103.43746261715557, file: 'dok-ket-beach.html', image: 'https://static.thairath.co.th/media/dFQROr7oWzulq5FZUEh9wz24CHp4UkHzETUB201n2tMcL1ETeVuv2j12dDjeRWjK17A.webp', shortDesc: '"ทะเลอีสาน" หาดทรายเทียมริมเขื่อนลำปาว', tags: ['ธรรมชาติ', 'พักผ่อน', 'ครอบครัว', 'ริมน้ำ', 'กิจกรรม'] },
+            { id: 'pha-sawoei-viewpoint', name: 'ผาเสวย',lat: 16.78290019073686, lon: 103.8332140533423, file: 'pha-sawoei-viewpoint.html', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPfVXnEuTX5zSdG4_4PJr9EvxNHLVaQJtx5g&s', shortDesc: 'จุดชมวิวบนเทือกเขาภูพาน', tags: ['ธรรมชาติ', 'ชมวิว', 'ภูเขา', 'ถ่ายรูป'] },
+
+    // Restaurants (Updated List)
+             { id: 'ploen-kalasin.html', name: 'เพลิน กาฬสินธุ์',lat: 16.445869748467718, lon: 103.5242503730151, file: 'ploen-kalasin.html', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdCgLyrMwpNLt7OiS7AM7aKSvnp9r0A018Dw&s', shortDesc: 'ร้านอาหารบรรยากาศดี มีดนตรีสด', tags: ['ร้านอาหาร', 'กลางคืน', 'ในเมือง'] },
+             { id: 'the-loft-cafe.html', name: 'The Loft Cafe Kalasin',lat: 16.61319376267423, lon: 103.21787944417923, file: 'the-loft-cafe.html', image: 'https://img.wongnai.com/p/1920x0/2018/11/04/3e3907c089204859bc0df53f5383a151.jpg', shortDesc: 'คาเฟ่สไตล์ลอฟท์ใจกลางเมือง บรรยากาศเท่ๆ', tags: ['คาเฟ่', 'กาแฟ', 'ในเมือง', 'ถ่ายรูป'] },
+             { id: 'berler-shabu.html', name: 'เบ้อเร่อ ชาบูพันธุ์แท้',lat: 16.43918072455763, lon: 103.51720355582074, file: 'berer-shabu.html', image: 'https://lh3.googleusercontent.com/gps-cs-s/AC9h4nozZ7gRoEiLor--_OfHjPdXCm-KdQA6fQzKqoC8Ma4mu0YnPEUaK7TlT4gxnqJ-5j57B4isAMinT8BaQJMloXKRB9CWEqTmRLWSGrF9J24zY7grj-Rr-WPcW6a_AUoGR2OZNBY=w408-h408-k-no', shortDesc: 'ชาบูบุฟเฟ่ต์ราคาย่อมเยา น้ำซุปเข้มข้น เนื้อคุณภาพดี', tags: ['ร้านอาหาร', 'บุฟเฟ่ต์', 'ชาบู', 'ในเมือง'] },
+             { id: 'suk-plai-na-cafe.html', name: 'สุขปลายนา คาเฟ่',lat:16.403832811024763, lon: 103.44122582883585, file: 'suk-plai-na-cafe.html', image: 'https://img.wongnai.com/p/400x0/2021/04/03/14e929371923466390d70cb05c8df921.jpg', shortDesc: 'คาเฟ่บรรยากาศดีกลางทุ่งนา พร้อมเครื่องดื่มและอาหารอร่อย', tags: ['คาเฟ่', 'กาแฟ', 'ธรรมชาติ', 'ถ่ายรูป', 'ร้านอาหาร'] },
+             { id: 'pingfai-kalasin.html', name: 'ร้านอาหารพิงไฟ',lat: 16.406165932038405, lon: 103.445312, file: 'pingfai-restaurant.html', image: 'https://lh3.googleusercontent.com/gps-cs-s/AC9h4np7817Hc6HbDWTCWgtOxmYbzyobHyLSBFtQTyYMONiLrcUqX1Sb4KRcxOxYnCXxCbPBcRJ0eDTkwdRhLvNui63BmaBOJB2sC_k9kPac4dg2N2OM-uKAdoow6LGUwQkfhUPc8VEc-Q=w408-h544-k-no', shortDesc: 'ร้านอาหารไทย-อีสาน บรรยากาศอบอุ่น เหมาะสำหรับครอบครัว', tags: ['ร้านอาหาร', 'อาหารไทย', 'อาหารอีสาน', 'ครอบครัว'] },
+
+    // Accommodations (Updated List)
+             { id: 'Supak', name: 'โรงแรมสุภัค',lat: 16.431289722759185, lon: 103.5053431576717, file: 'Supak.html', image: 'https://img.wongnai.com/p/1920x0/2018/03/24/abe622c80a7a4d83973501f6638c8246.jpg', shortDesc: 'โรงแรมใจกลางเมือง เดินทางสะดวก ราคาคุ้มค่า', tags: ['ที่พัก', 'โรงแรม', 'ในเมือง', 'ราคาประหยัด'] },
+             { id: 'Ratchapruek', name: 'ราชพฤกษ์ รีสอร์ท',lat: 16.444928278892665, lon: 103.51016986931323, file: 'Ratchapruek.html', image: 'https://www.chuwab.com/images/hotel/1/12/3712/bimg_20160602111811.jpg', shortDesc: 'รีสอร์ทบรรยากาศเงียบสงบ เป็นส่วนตัว เหมาะสำหรับการพักผ่อน', tags: ['ที่พัก', 'รีสอร์ท', 'พักผ่อน', 'เป็นส่วนตัว'] },
+             { id: 'q-bis-the-base-kalasin', name: 'โรงแรม คิวบิส เดอะ เบส กาฬสินธุ์',lat: 16.43798514505616, lon: 103.5358373693132, file: 'q-bis-the-base-kalasin.html', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStukjW36CXkc06NxY4XeV9xyDePzQ1uDtA4Q&s', shortDesc: 'โรงแรมสไตล์โมเดิร์นใจกลางเมือง พร้อมสิ่งอำนวยความสะดวกครบครัน', tags: ['ที่พัก', 'โรงแรม', 'ในเมือง', 'ทันสมัย'] },
+             { id: 'dino-inn-hotel', name: 'โรงแรมดิโน่ สตูดิโอ',lat: 16.43889230538062, lon: 103.5096531018509, file: 'dino-inn-hotel.html', image: 'https://pix10.agoda.net/hotelImages/877/877029/877029_15082510150034980462.jpg?ca=5&ce=1&s=414x232', shortDesc: 'โรงแรมดีไซน์เก๋ ตกแต่งในธีมไดโนเสาร์ ไม่เหมือนใคร', tags: ['ที่พัก', 'โรงแรม', 'ไดโนเสาร์', 'ครอบครัว'] },
+             { id: 'Rimpao', name: 'โรงแรมริมปาว',lat: 16.42763378122583, lon: 103.49400691719431, file: 'Rimpao.html', image: 'https://images.trvl-media.com/lodging/17000000/16760000/16759900/16759859/64074b9d.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill', shortDesc: 'โรงแรมมาตรฐานใจกลางเมือง เดินทางสะดวกสบาย', tags: ['ที่พัก', 'โรงแรม', 'ในเมือง', 'ครอบครัว'] }
+            // ... (ข้อมูลสถานที่อื่นๆ ทั้งหมดควรจะอยู่ที่นี่)
+        ];
+        const currentPageId = 'sirindhorn-museum';
+
+        // --- ฟังก์ชันดึงข้อมูลสภาพอากาศ ---
+        async function fetchWeather(lat, lon, apiKey) {
+            const weatherInfoP = document.getElementById('weather-info');
+            const weatherIconI = weatherInfoP.parentElement.querySelector('i');
+            if (!weatherInfoP || !weatherIconI) return;
+
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=th`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('API request failed');
+                const data = await response.json();
+                const temp = Math.round(data.main.temp);
+                const description = data.weather[0].description;
+                const iconCode = data.weather[0].icon;
+
+                weatherInfoP.innerHTML = `${temp}°C, ${description}`;
+                weatherIconI.className = `fas fa-${getWeatherIcon(iconCode)}`;
+            } catch (error) {
+                weatherInfoP.innerText = 'โหลดข้อมูลไม่ได้';
+                console.error('Fetch weather error:', error);
+            }
+        }
+
+        function getWeatherIcon(iconCode) {
+            if (iconCode.includes('01')) return 'sun';
+            if (iconCode.includes('02')) return 'cloud-sun';
+            if (iconCode.includes('03') || iconCode.includes('04')) return 'cloud';
+            if (iconCode.includes('09') || iconCode.includes('10')) return 'cloud-showers-heavy';
+            if (iconCode.includes('11')) return 'bolt';
+            if (iconCode.includes('13')) return 'snowflake';
+            if (iconCode.includes('50')) return 'smog';
+            return 'sun';
+        }
+
+        // --- ฟังก์ชันระบบแนะนำ ---
+        function findRecommendations() {
+            const currentLocation = allLocations.find(loc => loc.id === currentPageId);
+            if (!currentLocation) return [];
+            const recommendations = [];
+            allLocations.forEach(location => {
+                if (location.id === currentPageId) return;
+                const sharedTags = location.tags.filter(tag => currentLocation.tags.includes(tag));
+                if (sharedTags.length > 0) {
+                    recommendations.push({ ...location, score: sharedTags.length });
+                }
+            });
+            return recommendations.sort((a, b) => b.score - a.score).slice(0, 3);
+        }
+
+        function displayRecommendations() {
+            const recommendations = findRecommendations();
+            const container = document.getElementById('recommendations-grid');
+            const section = document.getElementById('recommendations-section');
+            if (!container || recommendations.length === 0) {
+                if(section) section.style.display = 'none';
+                return;
+            }
+            let html = '';
+            recommendations.forEach(rec => {
+                html += `
+                    <a href="${rec.file}" class="card-link">
+                        <div class="card">
+                            <img src="${rec.image}" alt="${rec.name}">
+                            <div class="card-content">
+                                <h3>${rec.name}</h3>
+                                <p>${rec.shortDesc}</p>
+                            </div>
+                        </div>
+                    </a>`;
+            });
+            container.innerHTML = html;
+        }
+        
+        // --- เรียกใช้งานฟังก์ชันทั้งหมดเมื่อหน้าเว็บโหลด ---
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. แสดงสถานที่แนะนำ
+            displayRecommendations(); 
+
+            // 2. ดึงข้อมูลสภาพอากาศ
+            const apiKey = '8ad887970b6539bfa7b42ca03ccae9cf'; // <<<<====== ❗❗ วาง API KEY ของคุณตรงนี้ ❗❗
+            const currentLocationData = allLocations.find(loc => loc.id === currentPageId);
+
+            if (currentLocationData && currentLocationData.lat && currentLocationData.lon) {
+                if(apiKey === 'Y8ad887970b6539bfa7b42ca03ccae9cf' || !apiKey) {
+                     document.getElementById('weather-info').innerText = 'กรุณาใส่ API Key';
+                     document.getElementById('weather-info').parentElement.querySelector('i').className = 'fas fa-exclamation-circle';
+                } else {
+                    fetchWeather(currentLocationData.lat, currentLocationData.lon, apiKey);
+                }
+            } else {
+                document.getElementById('weather-info').innerText = 'ไม่มีข้อมูลพิกัด';
+            }
+        });
+    </script>
+</body>
+</html>
+

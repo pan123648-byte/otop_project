@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>นวัตกรรมการท่องเที่ยว | กาฬสินธุ์</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            background-image: url('img/img4.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header / Nav Bar */
+        header {
+            background-color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c5b4c;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
+        }
+        .auth-buttons a {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-left: 10px;
+        }
+        .login-btn {
+            background-color: transparent;
+            border: 2px solid #2c5b4c;
+            color: #2c5b4c;
+        }
+        .signup-btn {
+            background-color: #2c5b4c;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1624624132214-a28a50ea24b5?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .hero h1 { font-size: 48px; margin-bottom: 10px; }
+        .hero p { font-size: 20px; }
+
+        /* Content Sections */
+        .section { padding: 60px 0; }
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #111;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .section-title-wrapper {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .card:hover { transform: translateY(-10px); }
+        .card-link { text-decoration: none; color: inherit; }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 20px; flex-grow: 1; }
+        .card-content h3 { margin-top: 0; color: #000; }
+        .card-content p { color: #111; }
+
+        /* Review Summary */
+        .review-summary {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .stars { color: #ffc107; }
+        .review-text .score { font-weight: bold; color: #111; }
+        .review-text .review-count { color: #333; margin-left: 8px; }
+
+        /* Video Container */
+        .video-container { text-align: center; margin-top: 40px; }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #2c5b4c;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s;
+            z-index: 1000;
+        }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+        
+        /* Fade-in Effect */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        
+        /* Footer */
+        footer {
+            background-color: #2c5b4c;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        /* --- Chatbot Styles --- */
+        #planner-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #ff5722;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+        #planner-icon:hover { transform: scale(1.1) rotate(20deg); }
+        #planner-window {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 370px;
+            max-width: 90vw;
+            background-color: #f4f7f6;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-in-out;
+        }
+        #planner-window.open { transform: scale(1); }
+        .planner-header {
+            background-color: #ff5722;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .planner-header h3 { margin: 0; font-size: 18px; }
+        .planner-body { padding: 20px; max-height: 400px; overflow-y: auto; }
+        .bot-question p {
+            background-color: #ffffff;
+            color: black;
+            padding: 12px 18px;
+            border-radius: 20px 20px 20px 5px;
+            display: inline-block;
+            max-width: 90%;
+            margin: 5px 0 15px 0;
+            line-height: 1.5;
+        }
+        .planner-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .planner-options button {
+            background-color: white;
+            border: 2px solid #ff5722;
+            color: #ff5722;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .planner-options button:hover { background-color: #ff5722; color: white; }
+        .planner-result { border-top: 2px solid #ddd; margin-top: 20px; padding-top: 20px; }
+        .planner-result h4 { color: #ff5722; text-align: center; font-size: 20px; }
+        .planner-result .budget { text-align: center; font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+        .planner-result .budget small { font-size: 14px; font-weight: normal; color: #555; }
+        .planner-result ul { list-style: none; padding: 0; }
+        .planner-result li { background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 5px solid #ff5722; }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-to-top">▲</a>
+
+    <header>
+        <div class="logo">Moonlight</div>
+        <nav>
+            <a href="#attractions">ที่ท่องเที่ยว</a>
+            <a href="#restaurants">ร้านอาหาร</a>
+            <a href="#accommodations">ห้องพัก</a>
+        </nav>
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn">เข้าสู่ระบบ</a>
+            <a href="signup.html" class="signup-btn">สมัครสมาชิก</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>นวัตกรรมการท่องเที่ยว จังหวัดกาฬสินธุ์</h1>
+        <p>สัมผัสมิติใหม่ของการเดินทาง ค้นพบทุกความมหัศจรรย์ด้วยปลายนิ้ว</p>
+    </section>
+
+    <main class="container">
+        <section id="attractions" class="section">
+            <div class="section-title-wrapper">
+                <h2 class="section-title">ที่ท่องเที่ยวแนะนำ</h2>
+            </div>
+            <div class="card-grid">
+                <a href="sirindhorn-museum.html" class="card-link"><div class="card fade-in"><img src="img/img1.jpg" alt="พิพิธภัณฑ์สิรินธร"><div class="card-content"><h3>พิพิธภัณฑ์สิรินธร (ภูกุ้มข้าว)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.8</span><span class="review-count">(1,258 รีวิว)</span></div></div><p>ศูนย์วิจัยไดโนเสาร์และพิพิธภัณฑ์ธรณีวิทยาที่สมบูรณ์ที่สุดในอาเซียน</p></div></div></a>
+                <a href="phra-that-yakhu.html" class="card-link"><div class="card fade-in"><img src="img/img3.jpg" alt="พระธาตุยาคู"><div class="card-content"><h3>พระธาตุยาคู (เมืองฟ้าแดดสงยาง)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.7</span><span class="review-count">(890 รีวิว)</span></div></div><p>เจดีย์สมัยทวารวดีที่ใหญ่ที่สุดในประเทศไทย โบราณสถานที่สำคัญของจังหวัด</p></div></div></a>
+                <a href="wat-wang-kham.html" class="card-link"><div class="card fade-in"><img src="https://isan.tiewrussia.com/wat_wangkam/images/015.jpg" alt="วัดวังคำ"><div class="card-content"><h3>วัดวังคำ</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.6</span><span class="review-count">(750 รีวิว)</span></div></div><p>วัดงดงามด้วยสถาปัตยกรรมล้านนาคล้ายวัดเชียงทองในหลวงพระบาง</p></div></div></a>
+                <a href="thepsuda-bridge.html" class="card-link"><div class="card fade-in"><img src="img/img2.jpg" alt="เขื่อนลำปาว"><div class="card-content"><h3>สะพานเทพสุดา (เขื่อนลำปาว)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><div class="review-text"><span class="score">4.9</span><span class="review-count">(2,134 รีวิว)</span></div></div><p>สะพานข้ามน้ำจืดที่ยาวที่สุดในประเทศ ชมวิวทิวทัศน์สวยงามของเขื่อนลำปาว</p></div></div></a>
+                <a href="phu-po-dinosaur-park.html" class="card-link"><div class="card fade-in"><img src="https://kalasin.city/wp-content/uploads/2022/10/%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7%E0%B8%81%E0%B8%B2%E0%B8%AC%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%98%E0%B8%B8%E0%B9%8C_%E0%B8%9E%E0%B8%B4%E0%B8%9E%E0%B8%B4%E0%B8%98%E0%B8%A0%E0%B8%B1%E0%B8%93%E0%B8%91%E0%B9%8C%E0%B8%AA%E0%B8%B4%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%98%E0%B8%A3-05-600x400.jpg" alt="อุทยานไดโนเสาร์ภูโป"><div class="card-content"><h3>อุทยานไดโนเสาร์ภูโป</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.3</span><span class="review-count">(420 รีวิว)</span></div></div><p>แหล่งค้นพบรอยตีนไดโนเสาร์ที่ชัดเจนที่สุดแห่งหนึ่งของไทย</p></div></div></a>
+                <a href="phrae-wa-silk-village.html" class="card-link"><div class="card fade-in"><img src="https://do.lnwfile.com/_/do/_raw/jz/xq/w8.png" alt="หมู่บ้านทอผ้าไหมแพรวาบ้านโพน"><div class="card-content"><h3>หมู่บ้านทอผ้าไหมแพรวา</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.6</span><span class="review-count">(515 รีวิว)</span></div></div><p>แหล่งกำเนิดของ "แพรวา ราชินีแห่งไหม" ผ้าไหมทอมือลายโบราณ</p></div></div></a>
+                <a href="dok-ket-beach.html" class="card-link"><div class="card fade-in"><img src="https://static.thairath.co.th/media/dFQROr7oWzulq5FZUEh9wz24CHp4UkHzETUB201n2tMcL1ETeVuv2j12dDjeRWjK17A.webp" alt="หาดดอกเกด"><div class="card-content"><h3>หาดดอกเกด (เขื่อนลำปาว)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.4</span><span class="review-count">(1,580 รีวิว)</span></div></div><p>"ทะเลอีสาน" ที่ชาวกาฬสินธุ์นิยมมาพักผ่อน มีกิจกรรมทางน้ำมากมาย</p></div></div></a>
+                <a href="pha-sawoei-viewpoint.html" class="card-link"><div class="card fade-in"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPfVXnEuTX5zSdG4_4PJr9EvxNHLVaQJtx5g&s" alt="ผาเสวย"><div class="card-content"><h3>ผาเสวย</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.2</span><span class="review-count">(350 รีวิว)</span></div></div><p>จุดชมวิวบนเทือกเขาภูพาน รอยต่อระหว่างกาฬสินธุ์และสกลนคร</p></div></div></a>
+                <a href="wat-phutthanimit.html" class="card-link"><div class="card fade-in"><img src="https://mpics.mgronline.com/pics/Images/561000004305306.JPEG" alt="วัดพุทธนิมิต"><div class="card-content"><h3>วัดพุทธนิมิต (ภูค่าว)</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><div class="review-text"><span class="score">4.7</span><span class="review-count">(680 รีวิว)</span></div></div><p>วัดเก่าแก่ที่ประดิษฐานพระพุทธไสยาสน์แกะสลักบนแผ่นผา</p></div></div></a>
+            </div>
+        </section>
+
+        <section id="restaurants" class="section">
+            <div class="section-title-wrapper">
+                 <h2 class="section-title">ร้านอาหารและคาเฟ่</h2>
+            </div>
+            <div class="card-grid">
+                <a href="ploen-kalasin.html" class="card-link"><div class="card fade-in"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdCgLyrMwpNLt7OiS7AM7aKSvnp9r0A018Dw&s" alt="ร้านอาหาร"><div class="card-content"><h3>เพลิน กาฬสินธุ์</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.4</span><span class="review-count">(210 รีวิว)</span></div></div><p>ร้านอาหารบรรยากาศดี มีดนตรีสด พร้อมเมนูหลากหลายใจกลางเมือง</p></div></div></a>
+                <a href="somtum-sam-pee-nong.html" class="card-link"> <div class="card fade-in"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsJF_1wgWeZ-CA2foIR_VjorrXHKC6FOzkvw&s" alt="ร้านส้มตำสามพี่น้อง"> <div class="card-content"> <h3>ส้มตำสามพี่น้อง</h3> <div class="review-summary"> <div class="stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </div> <div class="review-text"> <span class="score">5.0</span> <span class="review-count">(99 รีวิว)</span> </div> </div> <p>ร้านส้มตำชื่อดัง รสชาติจัดจ้าน ถูกใจคนท้องถิ่นและนักท่องเที่ยว</p> </div> </div> </a>
+                <a href="berler-shabu.html" class="card-link"> <div class="card fade-in"> <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nozZ7gRoEiLor--_OfHjPdXCm-KdQA6fQzKqoC8Ma4mu0YnPEUaK7TlT4gxnqJ-5j57B4isAMinT8BaQJMloXKRB9CWEqTmRLWSGrF9J24zY7grj-Rr-WPcW6a_AUoGR2OZNBY=w408-h408-k-no" alt="เบ้อเร่อ ชาบูพันธุ์แท้"> <div class="card-content"> <h3>เบ้อเร่อ ชาบูพันธุ์แท้</h3> <div class="review-summary"> <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div> <div class="review-text"><span class="score">4.8</span><span class="review-count">(550 รีวิว)</span></div> </div> <p>บุฟเฟ่ต์ชาบูและปิ้งย่างชื่อดัง ไลน์อาหารจัดเต็ม</p> </div> </div> </a>
+                <a href="the-loft-cafe.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/400x0/2021/04/03/14e929371923466390d70cb05c8df921.jpg" alt="The Loft Cafe Kalasin"><div class="card-content"><h3>The Loft Cafe Kalasin</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.3</span><span class="review-count">(150 รีวิว)</span></div></div><p>คาเฟ่สไตล์ลอฟท์ใจกลางเมือง บรรยากาศเท่ๆ ดิบๆ สำหรับคอกาแฟ</p></div></div></a>
+                <a href="suk-plai-na-cafe.html" class="card-link"> <div class="card fade-in"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeeWQuEaVoi1MQzGKIfBIARfRrqamRFg1amw&s" alt="สุขปลายนา คาเฟ่"> <div class="card-content"> <h3>สุขปลายนา คาเฟ่</h3> <div class="review-summary"> <div class="stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star-half-alt"></i> </div> <div class="review-text"> <span class="score">4.7</span> <span class="review-count">(120 รีวิว)</span> </div> </div> <p>คาเฟ่กลางทุ่งนา บรรยากาศร่มรื่น สบายตา เหมาะแก่การพักผ่อน</p> </div> </div> </a>
+                <a href="pingfai-kalasin.html" class="card-link"> <div class="card fade-in"> <img src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4np7817Hc6HbDWTCWgtOxmYbzyobHyLSBFtQTyYMONiLrcUqX1Sb4KRcxOxYnCXxCbPBcRJ0eDTkwdRhLvNui63BmaBOJB2sC_k9kPac4dg2N2OM-uKAdoow6LGUwQkfhUPc8VEc-Q=w408-h544-k-no" alt="ร้านอาหารผิงไฟ"> <div class="card-content"> <h3>ร้านอาหารผิงไฟ</h3> <div class="review-summary"> <div class="stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="far fa-star"></i> </div> <div class="review-text"> <span class="score">4.1</span> <span class="review-count">(95 รีวิว)</span> </div> </div> <p>ร้านอาหารบรรยากาศดี มีเมนูหลากหลาย ทั้งอาหารไทยและอีสาน</p> </div> </div> </a>
+            </div>
+        </section>
+
+        <section id="accommodations" class="section">
+             <div class="section-title-wrapper">
+                <h2 class="section-title">ที่พักและโรงแรม</h2>
+            </div>
+            <div class="card-grid">
+                <a href="Suphak.html" class="card-link"><div class="card fade-in"><img src="https://img.wongnai.com/p/1920x0/2018/03/24/abe622c80a7a4d83973501f6638c8246.jpg" alt="โรงแรม"><div class="card-content"><h3>โรงแรมสุภัค</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">3.7</span><span class="review-count">(310 รีวิว)</span></div></div><p>ที่พักสะอาด ราคาเป็นมิตร ใกล้สถานีขนส่งกาฬสินธุ์</p></div></div></a>
+                <a href="Ratchapreuk.html" class="card-link"><div class="card fade-in"><img src="https://www.chuwab.com/images/hotel/1/12/3712/bimg_20160602111811.jpg" alt="รีสอร์ท"><div class="card-content"><h3>ราชพฤกษ์ รีสอร์ท</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.0</span><span class="review-count">(280 รีวิว)</span></div></div><p>รีสอร์ทบรรยากาศเงียบสงบ เหมาะสำหรับการพักผ่อน</p></div></div></a>
+                <a href="q-bis-the-base-kalasin.html" class="card-link"> <div class="card fade-in"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStukjW36CXkc06NxY4XeV9xyDePzQ1uDtA4Q&s" alt="โรงแรม คิวบิส เดอะ เบส กาฬสินธุ์"> <div class="card-content"> <h3>โรงแรม คิวบิส เดอะ เบส กาฬสินธุ์</h3> <div class="review-summary"> <div class="stars"> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </div> <div class="review-text"> <span class="score">5.0</span> <span class="review-count">(100 รีวิว)</span> </div> </div> <p>โรงแรมทันสมัยใจกลางเมืองกาฬสินธุ์ พร้อมสิ่งอำนวยความสะดวกครบครัน</p> </div> </div> </a>                
+                <a href="dino-inn-hotel.html" class="card-link"><div class="card fade-in"><img src="https://pix10.agoda.net/hotelImages/877/877029/877029_15082510150034980462.jpg?ca=5&ce=1&s=414x232" alt="โรงแรมไดโนอินน์"><div class="card-content"><h3>โรงแรมดิโน่ สตูดิโอ</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">3.8</span><span class="review-count">(410 รีวิว)</span></div></div><p>โรงแรมราคาประหยัด ตั้งอยู่ในทำเลดี เดินทางสะดวก ห้องพักสะอาด</p></div></div></a>
+                <a href="Rimpao.html" class="card-link"><div class="card fade-in"><img src="https://images.trvl-media.com/lodging/17000000/16760000/16759900/16759859/64074b9d.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill" alt="โรงแรม"><div class="card-content"><h3>โรงแรมริมปาว</h3><div class="review-summary"><div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><div class="review-text"><span class="score">4.1</span><span class="review-count">(450 รีวิว)</span></div></div><p>โรงแรมมาตรฐานใจกลางเมือง เดินทางสะดวกสบาย</p></div></div></a>
+
+            </section>
+    </main>
+    <main>
+    <h1>สินค้า OTOP แนะนำ</h1>
+    <div id="product-grid" class="card-grid">
+        </div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const productGrid = document.getElementById('product-grid');
+        try {
+            // "โทร" ไปหาหลังร้านเพื่อ "ขอดูสินค้าทั้งหมด"
+            const response = await fetch('/api/products');
+            const products = await response.json();
+            
+            if (products.length === 0) {
+                productGrid.innerHTML = '<p>ยังไม่มีสินค้าในขณะนี้</p>';
+                return;
+            }
+            
+            // นำข้อมูลสินค้าที่ได้มาสร้างเป็นการ์ด
+            productGrid.innerHTML = products.map(p => `
+                <a href="#" class="card-link">
+                    <div class="card">
+                        <img src="${p.image_url}" alt="${p.name}">
+                        <div class="card-content">
+                            <h3>${p.name}</h3>
+                            <p>${p.description}</p>
+                            <p class="price">฿${p.price}</p>
+                            <button class="buy-button">สั่งซื้อ</button>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+
+        } catch (error) {
+            productGrid.innerHTML = '<p>ไม่สามารถโหลดข้อมูลสินค้าได้ กรุณาลองใหม่อีกครั้ง</p>';
+        }
+    });
+</script>
+    <div class="video-container"> 
+        <iframe 
+            width="560" 
+            height="315" 
+            src="https://www.youtube.com/embed/Or3TOTkaDYw?si=WC_dOBXbqLoEQfVc&start=15"
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <footer>
+        <p>© 2025 Kalasin Tourism Innovation Project | จัดทำเพื่อการศึกษา</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fade-in effect
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            if (!!window.IntersectionObserver) {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                fadeInElements.forEach(el => { observer.observe(el); });
+            }
+
+            // Back to top button
+            const backToTopButton = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+
+            // Chatbot Planner
+            const plannerIcon = document.getElementById('planner-icon');
+            const plannerWindow = document.getElementById('planner-window');
+            const plannerBody = document.getElementById('planner-body');
+            let currentStep = 0;
+            let userAnswers = {};
+            const questions = [
+                { id: 'days', text: 'สวัสดีครับ! 🦖 อยากให้น้องไดโนช่วยจัดทริปเที่ยวกาฬสินธุ์กี่วันดีครับ?', options: [ { text: '1 วัน (เช้า-เย็น)', value: 1 }, { text: '2 วัน 1 คืน', value: 2 } ] },
+                { id: 'style', text: 'เยี่ยมเลย! แล้วอยากเที่ยวสไตล์ไหนดีครับ? (สไตล์นี้จะใช้ประมาณการค่าใช้จ่ายครับ)', options: [ { text: 'ประหยัด (เน้น Street Food)', value: 'budget' }, { text: 'สบายๆ (ร้านอาหาร+คาเฟ่)', value: 'balanced' }, { text: 'จัดเต็ม (ร้านดัง+ของฝาก)', value: 'luxury' } ] },
+                { id: 'interest', text: 'คำถามสุดท้าย! สนใจเที่ยวแนวไหนเป็นพิเศษครับ?', options: [ { text: 'ไดโนเสาร์และประวัติศาสตร์', value: 'dino_history' }, { text: 'ธรรมชาติและคาเฟ่ชิลๆ', value: 'nature_cafe' } ] }
+            ];
+
+            plannerIcon.addEventListener('click', () => {
+                plannerWindow.classList.toggle('open');
+                if (plannerWindow.classList.contains('open') && currentStep === 0) {
+                    startConversation();
+                }
+            });
+
+            function startConversation() {
+                currentStep = 0;
+                userAnswers = {};
+                plannerBody.innerHTML = '';
+                askQuestion();
+            }
+
+            function askQuestion() {
+                if (currentStep < questions.length) {
+                    const q = questions[currentStep];
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'bot-question';
+                    questionDiv.innerHTML = `<p>${q.text}</p>`;
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'planner-options';
+                    q.options.forEach(option => {
+                        const button = document.createElement('button');
+                        button.innerText = option.text;
+                        button.onclick = () => handleAnswer(q.id, option.value);
+                        optionsDiv.appendChild(button);
+                    });
+                    questionDiv.appendChild(optionsDiv);
+                    plannerBody.appendChild(questionDiv);
+                    plannerBody.scrollTop = plannerBody.scrollHeight;
+                } else {
+                    generatePlan();
+                }
+            }
+
+            function handleAnswer(id, value) {
+                userAnswers[id] = value;
+                currentStep++;
+                const allButtons = plannerBody.querySelectorAll('.planner-options button');
+                allButtons.forEach(btn => { if (!btn.parentElement.previousElementSibling.innerText.includes(questions[currentStep-1].text)) { btn.disabled = true; }});
+                askQuestion();
+            }
+
+            function generatePlan() {
+                const costs = { food_per_day: { budget: 300, balanced: 600, luxury: 1000 }, travel_per_day: { budget: 200, balanced: 400, luxury: 600 }, accommodation: { budget: 0, balanced: 800, luxury: 1500 }, activities: { budget: 100, balanced: 300, luxury: 500 } };
+                const days = userAnswers.days;
+                const style = userAnswers.style;
+                let totalBudget = (costs.food_per_day[style] + costs.travel_per_day[style] + costs.activities[style]) * days;
+                if (days === 2) { totalBudget += costs.accommodation[style]; }
+                const itineraries = { dino_history: { day1: ["ตอนเช้า: พิพิธภัณฑ์สิรินธร", "ตอนบ่าย: พระธาตุยาคู"], day2: ["ตอนเช้า: วัดพุทธนิมิต (ภูค่าว)", "ตอนบ่าย: หมู่บ้านทอผ้าไหมแพรวา"] }, nature_cafe: { day1: ["ตอนเช้า: สะพานเทพสุดา", "ตอนบ่าย: หาดดอกเกด", "ตอนเย็น: นั่งชิลล์ที่ Malafe' Cafe'"], day2: ["ตอนเช้า: ผาเสวย", "ตอนบ่าย: บ้านมอ ดีฮัก (คาเฟ่ริมทุ่งนา)"] } };
+                const selectedItinerary = itineraries[userAnswers.interest];
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'planner-result';
+                let itineraryHtml = selectedItinerary.day1.map(item => `<li>${item}</li>`).join('');
+                if (days === 2 && selectedItinerary.day2) { itineraryHtml += selectedItinerary.day2.map(item => `<li>${item}</li>`).join(''); }
+                resultDiv.innerHTML = `<h4>นี่คือแผนเที่ยวสำหรับคุณ!</h4><div class="budget">ประมาณการค่าใช้จ่าย: ฿${totalBudget.toLocaleString()}<br><small>(ต่อคน, ไม่รวมค่าเดินทางมาจังหวัด)</small></div><h4>แผนการเดินทาง:</h4><ul>${itineraryHtml}</ul>`;
+                const restartButton = document.createElement('button');
+                restartButton.innerText = 'วางแผนใหม่';
+                restartButton.style.cssText = 'width: 100%; border: none; padding: 10px; background-color: #ff5722; color: white; border-radius: 20px; font-size: 16px; margin-top: 20px; cursor: pointer;';
+                restartButton.onclick = startConversation;
+                resultDiv.appendChild(restartButton);
+                plannerBody.appendChild(resultDiv);
+                plannerBody.scrollTop = plannerBody.scrollHeight;
+            }
+        });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered', reg))
+                    .catch(err => console.log('Service Worker not registered', err));
+            });
+        }
+    </script>
+    <style>
+    /* ธีมสีหลักของ Chatbot */
+    :root {
+        --bot-color: #007bff; /* Professional Blue */
+        --user-color: #2c5b4c; /* Green from your site theme */
+        --font-family: 'Sarabun', sans-serif;
+    }
+
+    /* ไอคอน Chatbot */
+    #chat-icon {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        background-color: var(--bot-color);
+        color: white;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        z-index: 1001;
+        transition: transform 0.2s ease;
+    }
+    #chat-icon:hover {
+        transform: scale(1.1);
+    }
+
+    /* หน้าต่างแชท */
+    #chat-window {
+        position: fixed;
+        bottom: 100px;
+        right: 25px;
+        width: 380px;
+        max-width: calc(100vw - 40px);
+        height: 600px;
+        max-height: calc(100vh - 120px);
+        background-color: #f1f2f6;
+        border-radius: 15px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 1000;
+        transform: scale(0);
+        transform-origin: bottom right;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    #chat-window.open {
+        transform: scale(1);
+    }
+
+    .chat-header {
+        background: var(--bot-color);
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+
+    .chat-body {
+        flex-grow: 1;
+        padding: 15px;
+        overflow-y: auto;
+    }
+
+    /* ข้อความแชท */
+    .message {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    .message .bubble {
+        padding: 10px 18px;
+        border-radius: 20px;
+        max-width: 85%;
+        line-height: 1.5;
+        word-wrap: break-word;
+    }
+    .bot-message { align-items: flex-start; }
+    .bot-message .bubble { background-color: #ffffff; color: black; border-bottom-left-radius: 5px; }
+    .user-message { align-items: flex-end; }
+    .user-message .bubble { background-color: var(--user-color); color: white; border-bottom-right-radius: 5px; }
+
+    /* ปุ่ม Quick Reply */
+    .quick-replies { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; justify-content: flex-start; }
+    .quick-reply-btn {
+        background-color: transparent;
+        border: 2px solid var(--bot-color);
+        color: var(--bot-color);
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: var(--font-family);
+        font-size: 14px;
+        font-weight: bold;
+        transition: all 0.2s;
+    }
+    .quick-reply-btn:hover { background-color: var(--bot-color); color: white; }
+    .quick-reply-btn:disabled { border-color: #ccc; color: #ccc; cursor: not-allowed; }
+
+    /* ช่องพิมพ์ */
+    .chat-footer { display: flex; padding: 10px; border-top: 1px solid #ddd; background-color: #fff; flex-shrink: 0; }
+    #chat-input { flex-grow: 1; border: none; padding: 10px; font-family: var(--font-family); font-size: 16px; outline: none; background: transparent; }
+    #chat-send { background: none; border: none; color: var(--bot-color); font-size: 24px; cursor: pointer; padding: 0 10px; }
+    
+    /* ผลลัพธ์ */
+    .result-card { background-color: #fff; padding: 15px; border-radius: 8px; margin-top: 10px; border-left: 5px solid var(--bot-color); }
+    .result-card h4 { margin: 0 0 10px 0; color: var(--bot-color); }
+    .result-card ul { list-style-type: '✓  '; padding-left: 20px; margin: 0; }
+    .result-card li { margin-bottom: 5px; }
+    .result-card small { color: #555; }
+</style>
+
+<div id="chat-icon">🤖</div>
+<div id="chat-window">
+    <div class="chat-header">กาฬสินธุ์ AI Guide</div>
+    <div class="chat-body" id="chat-body"></div>
+    <div class="chat-footer">
+        <input type="text" id="chat-input" placeholder="พิมพ์คำสั่ง...">
+        <button id="chat-send">➤</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // --- องค์ประกอบหน้าเว็บ ---
+    const chatIcon = document.getElementById('chat-icon');
+    const chatWindow = document.getElementById('chat-window');
+    const chatBody = document.getElementById('chat-body');
+    const chatInput = document.getElementById('chat-input');
+    const chatSend = document.getElementById('chat-send');
+
+    // --- State Management ---
+    let conversationState = 'idle';
+    let planDetails = {};
+
+    // --- ฐานข้อมูลความรู้ของ AI (สามารถเพิ่มและแก้ไขได้) ---
+    const knowledgeBase = {
+        accommodations: [
+            { name: "โรงแรมริมปาว", keywords: ["ริมปาว"], details: "โรงแรมริมปาว เป็นโรงแรมมาตรฐานใจกลางเมือง เดินทางสะดวกสบาย เหมาะสำหรับครอบครัวและนักธุรกิจ" },
+            { name: "โรงแรมสุภัค", keywords: ["สุภัค"], details: "โรงแรมสุภัค เป็นที่พักราคาประหยัด อยู่ใกล้สถานีขนส่ง ทำให้เดินทางต่อไปยังที่ต่างๆ ได้ง่าย" },
+            { name: "ราชพฤกษ์ รีสอร์ท", keywords: ["ราชพฤกษ์"], details: "ราชพฤกษ์ รีสอร์ท มีบรรยากาศเงียบสงบ เป็นส่วนตัว เหมาะสำหรับการมาพักผ่อนอย่างแท้จริง" }
+        ],
+        costs: {
+            food_per_day: { budget: 400, balanced: 800, luxury: 1500 },
+            travel_per_day: { budget: 300, balanced: 500, luxury: 1000 },
+            accommodation_per_night: { budget: 700, balanced: 1200, luxury: 2000 }
+        },
+        itineraries: {
+            dino_history: ["พิพิธภัณฑ์สิรินธร", "พระธาตุยาคู", "วัดพุทธนิมิต (ภูค่าว)"],
+            nature_cafe: ["สะพานเทพสุดา", "หาดดอกเกด", "สุขปลายนา คาเฟ่"]
+        }
+    };
+
+    // --- ฟังก์ชันหลักในการทำงาน ---
+    const addMessage = (text, sender, quickReplies = []) => {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.innerHTML = text; // ใช้ innerHTML เพื่อให้แสดงลิงก์ได้
+        messageDiv.appendChild(bubble);
+
+        if (quickReplies.length > 0) {
+            const repliesDiv = document.createElement('div');
+            repliesDiv.className = 'quick-replies';
+            quickReplies.forEach(reply => {
+                const button = document.createElement('button');
+                button.className = 'quick-reply-btn';
+                button.innerText = reply.text;
+                button.onclick = () => {
+                    handleUserInput(reply.value || reply.text);
+                    document.querySelectorAll('.quick-reply-btn').forEach(btn => btn.disabled = true);
+                };
+                repliesDiv.appendChild(button);
+            });
+            messageDiv.appendChild(repliesDiv);
+        }
+        chatBody.appendChild(messageDiv);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    };
+
+    const handleUserInput = (input) => {
+        const trimmedInput = input.trim();
+        if (!trimmedInput) return;
+        addMessage(trimmedInput, 'user');
+        chatInput.value = '';
+        setTimeout(() => processBotResponse(trimmedInput.toLowerCase()), 500);
+    };
+    
+    const processBotResponse = (input) => {
+        if (conversationState.startsWith('planning')) {
+            processPlanning(input);
+            return;
+        }
+
+        // --- ระบบ Keyword Matching ---
+        if (input.includes('จัดทริป') || input.includes('วางแผน')) {
+            startPlanning();
+        } else if (input.includes('ที่พัก') || input.includes('โรงแรม')) {
+            let found = false;
+            knowledgeBase.accommodations.forEach(hotel => {
+                if (hotel.keywords.some(kw => input.includes(kw))) {
+                    addMessage(hotel.details, 'bot');
+                    found = true;
+                }
+            });
+            if (!found) {
+                addMessage('ต้องการข้อมูลของโรงแรมไหนครับ? ลองพิมพ์ชื่อโรงแรมได้เลย เช่น "ริมปาว"', 'bot', 
+                    knowledgeBase.accommodations.map(h => ({text: h.name}))
+                );
+            }
+        } else if (input.includes('ที่เที่ยว')) {
+             addMessage('แนะนำให้ไปชมที่ <a href="#attractions">ส่วนที่ท่องเที่ยว</a> บนเว็บไซต์ได้เลยครับ มีข้อมูลครบครัน!', 'bot');
+        } else if (input.includes('ร้านอาหาร')) {
+            addMessage('แนะนำให้ไปชมที่ <a href="#restaurants">ส่วนร้านอาหาร</a> บนเว็บไซต์ได้เลยครับ มีข้อมูลครบครัน!', 'bot');
+        } else {
+            addMessage('ขออภัยครับ ผมยังไม่เข้าใจ ลองใช้ปุ่มด้านล่างเพื่อเริ่มต้นดูนะครับ', 'bot', [
+                { text: 'ช่วยวางแผนเที่ยว' }, { text: 'สอบถามข้อมูลที่พัก' }
+            ]);
+        }
+    };
+
+    // --- ตรรกะการวางแผนเที่ยว ---
+    const startPlanning = () => {
+        conversationState = 'planning_days';
+        planDetails = {};
+        addMessage('เยี่ยมเลย! อยากเที่ยวประมาณกี่วันครับ? (เช่น 1, 2, 3)', 'bot');
+    };
+
+    const processPlanning = (input) => {
+        if (conversationState === 'planning_days') {
+            planDetails.days = parseInt(input.match(/\d+/)) || 1;
+            conversationState = 'planning_style';
+            addMessage(`ได้เลย ${planDetails.days} วัน! แล้วอยากเที่ยวสไตล์ไหนดีครับ?`, 'bot', [
+                { text: 'แบบประหยัด', value: 'budget' }, { text: 'แบบสบายๆ', value: 'balanced' }, { text: 'แบบจัดเต็ม', value: 'luxury' }
+            ]);
+        } else if (conversationState === 'planning_style') {
+            const style = input.includes('ประหยัด') ? 'budget' : input.includes('จัดเต็ม') ? 'luxury' : 'balanced';
+            planDetails.style = style;
+            generatePlan(planDetails);
+        }
+    };
+    
+    const generatePlan = (details) => {
+        const { days, style } = details;
+        let totalBudget = (knowledgeBase.costs.food_per_day[style] + knowledgeBase.costs.travel_per_day[style]) * days;
+        if (days > 1) {
+            totalBudget += knowledgeBase.costs.accommodation_per_night[style] * (days - 1);
+        }
+        
+        const tripPlan = [...knowledgeBase.itineraries.dino_history, ...knowledgeBase.itineraries.nature_cafe]
+            .sort(() => 0.5 - Math.random()) // สลับแบบสุ่ม
+            .slice(0, days * 2); // แนะนำวันละ 2 ที่
+
+        const resultHTML = `
+            <div class="result-card">
+                <h4>นี่คือแผนเที่ยวสำหรับคุณ! (${days} วัน)</h4>
+                <p><b>สไตล์:</b> ${style}</p>
+                <p><b>ประมาณการค่าใช้จ่าย:</b> ฿${totalBudget.toLocaleString()} <small>(ต่อคน)</small></p>
+                <p><b>แผนการเดินทางแนะนำ:</b></p>
+                <ul>${tripPlan.map(item => `<li>${item}</li>`).join('')}</ul>
+            </div>`;
+        addMessage(resultHTML, 'bot');
+        addMessage('อยากให้ช่วยอะไรอีกไหมครับ?', 'bot', [{ text: 'จัดทริปใหม่' }, { text: 'สอบถามข้อมูลที่พัก' }]);
+        conversationState = 'idle';
+    };
+
+    // --- Event Listeners และข้อความเริ่มต้น ---
+    chatIcon.addEventListener('click', () => chatWindow.classList.toggle('open'));
+    chatSend.addEventListener('click', () => handleUserInput(chatInput.value));
+    chatInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') handleUserInput(chatInput.value);
+    });
+    
+    setTimeout(() => {
+        addMessage('สวัสดีครับ! 🤖 ผมคือ AI Guide ยินดีช่วยคุณวางแผนเที่ยวในกาฬสินธุ์ครับ', 'bot', [
+            { text: 'ช่วยจัดทริปเที่ยว' },
+            { text: 'สอบถามข้อมูลที่พัก' }
+        ]);
+    }, 1000);
+});
+</script>
+</body>
+</html>

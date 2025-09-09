@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียด:   The Loft Cafe Kalasin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* --- General --- */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* --- Parallax Header --- */
+        .parallax-header {
+            height: 60vh;
+            /* รูปภาพหลักของ The Loft Cafe */
+            background-image: url('https://img.wongnai.com/p/400x0/2021/04/03/b732e867c7cf442087b036318daaffd4.jpgg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .parallax-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .header-title {
+            color: white;
+            font-size: 4em;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            z-index: 1;
+        }
+
+        /* --- Content Container --- */
+        .content-container {
+            max-width: 900px;
+            margin: -80px auto 20px auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Info Boxes --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        .info-box {
+            text-align: center;
+        }
+        .info-box i {
+            font-size: 2em;
+            color: #2c5b4c;
+            margin-bottom: 10px;
+        }
+        .info-box h3 {
+            margin: 0 0 5px 0;
+            font-size: 1em;
+            color: #555;
+        }
+        .info-box p {
+            margin: 0;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #111;
+        }
+
+        /* --- Main Text --- */
+        .detail-text {
+            line-height: 1.9;
+            font-size: 1.1em;
+            text-align: justify;
+        }
+        
+        /* --- Photo Gallery --- */
+        .gallery h2, .map-container h2, .section-title {
+            text-align: center;
+            color: #2c5b4c;
+            font-size: 2em;
+            margin-top: 40px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .gallery-grid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .gallery-grid img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* --- Map & Back Link --- */
+        .map-container { margin-top: 30px; }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            color: #2c5b4c;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        /* --- Recommendation Styles --- */
+        .section { padding-top: 30px; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card { background-color: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; transition: transform 0.2s ease; }
+        .card:hover { transform: translateY(-5px); }
+        .card-link { text-decoration: none; color: inherit; }
+        .card img { width: 100%; height: 150px; object-fit: cover; }
+        .card-content { padding: 15px; }
+        .card-content h3 { margin-top: 0; font-size: 1em; }
+        .card-content p { color: #666; font-size: 0.9em; }
+
+    </style>
+</head>
+<body>
+
+    <!-- ส่วนหัวแบบ Parallax -->
+    <header class="parallax-header" style="background-image: url('https://img.wongnai.com/p/400x0/2021/04/03/b732e867c7cf442087b036318daaffd4.jpg');">
+        <h1 class="header-title">The Loft Cafe Kalasin</h1>
+    </header>
+
+    <!-- ส่วนเนื้อหา -->
+    <main class="content-container">
+        
+        <!-- ส่วนกล่องข้อมูลสำคัญ -->
+        <div class="info-grid">
+            <div class="info-box">
+                <i class="fas fa-clock"></i>
+                <h3>เวลาเปิด-ปิด</h3>
+                <p>9:00 - 18:00 น.</p>
+            </div>
+            <div class="info-box">
+                <i class="fas fa-coffee"></i>
+                <h3>ประเภท</h3>
+                <p>คาเฟ่ / กาแฟ</p>
+            </div>
+            <div class="info-box">
+                <i class="fas fa-building"></i>
+                <h3>สไตล์</h3>
+                <p>ลอฟท์</p>
+            </div>
+            <div class="info-box">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>ตำแหน่ง</h3>
+                <p>ในเมืองกาฬสินธุ์</p>
+            </div>
+        </div>
+
+        <!-- ส่วนเนื้อหารายละเอียด -->
+        <p class="detail-text">
+            คาเฟ่สไตล์ลอฟท์ใจกลางเมือง บรรยากาศเท่ๆ ดิบๆ ให้บริการเครื่องดื่มกาแฟ ชา และเบเกอรี่ มีมุมถ่ายรูปสวยๆ หลายมุม
+        </p>
+
+        <!-- ส่วนแกลเลอรีรูปภาพ -->
+        <div class="gallery">
+            <h2>แกลเลอรี</h2>
+            <div class="gallery-grid">
+                <img src="data:image/jpeg;base64,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" alt="Gallery image 1">
+                <img src="https://live.staticflickr.com/65535/53023638352_229df13690_w.jpg" alt="Gallery image 2">
+                <img src="https://live.staticflickr.com/65535/53023638712_22543eefdb.jpg" alt="Gallery image 3">
+            </div>
+        </div>
+
+        <!-- ส่วนแผนที่ -->
+        <div class="map-container">
+            <h2>แผนที่และการเดินทาง</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d122443.7308128081!2d103.49092186801363!3d16.45696517672376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3122b53720e5c58b%3A0xa0676da0cac65fdb!2zTGF0aXR1ZGUgQ2Fmw6kgLSDguKXguLDguJXguLTguIjguLnguJQg4LiE4Liy4LmA4Lif4LmIIOC4geC4suC4rOC4quC4tOC4meC4mOC4uOC5jA!5e0!3m2!1sth!2sth!4v1757305509289!5m2!1sth!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <width="100%" height="400" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <!-- ส่วนแนะนำสถานที่อัจฉริยะ -->
+        <section id="recommendations-section" class="section">
+            <h2 class="section-title">สถานที่อื่นที่คุณอาจจะชอบ</h2>
+            <div id="recommendations-grid" class="card-grid">
+                <!-- Recommendations will be inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <a href="index.html" class="back-link">← กลับสู่หน้าหลัก</a>
+    </main>
+    
+    <script>
+        const allLocations = [
+    // Attractions (Kept)
+    { id: 'sirindhorn-museum', name: 'พิพิธภัณฑ์สิรินธร', file: 'sirindhorn-museum.html', image: 'img/img1.jpg', shortDesc: 'ศูนย์วิจัยไดโนเสาร์ที่สมบูรณ์ที่สุดในอาเซียน', tags: ['ไดโนเสาร์', 'พิพิธภัณฑ์', 'ครอบครัว', 'ความรู้'] },
+    { id: 'phra-that-yakhu', name: 'พระธาตุยาคู', file: 'phra-that-yakhu.html', image: 'img/img3.jpg', shortDesc: 'เจดีย์สมัยทวารวดีที่ใหญ่ที่สุดในประเทศไทย', tags: ['วัด', 'ประวัติศาสตร์', 'โบราณสถาน', 'วัฒนธรรม'] },
+    { id: 'thepsuda-bridge', name: 'สะพานเทพสุดา', file: 'thepsuda-bridge.html', image: 'img/img2.jpg', shortDesc: 'สะพานข้ามน้ำจืดที่ยาวที่สุดในประเทศ', tags: ['ธรรมชาติ', 'ชมวิว', 'ถ่ายรูป', 'ริมน้ำ'] },
+    { id: 'wat-wang-kham', name: 'วัดวังคำ', file: 'wat-wang-kham.html', image: 'https://isan.tiewrussia.com/wat_wangkam/images/015.jpg', shortDesc: 'งดงามด้วยสถาปัตยกรรมล้านนาคล้ายวัดเชียงทอง', tags: ['วัด', 'วัฒนธรรม', 'สถาปัตยกรรม', 'ถ่ายรูป'] },
+    { id: 'phu-po-dinosaur-park', name: 'อุทยานไดโนเสาร์ภูโป', file: 'phu-po-dinosaur-park.html', image: 'https://kalasin.city/wp-content/uploads/2022/10/%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7%E0%B8%81%E0%B8%B2%E0%B8%AC%E0%B8%AA%E0%B8%B4%E0%B8%99%E0%B8%98%E0%B8%B8%E0%B9%8C_%E0%B8%9E%E0%B8%B4%E0%B8%9E%E0%B8%B4%E0%B8%98%E0%B8%A0%E0%B8%B1%E0%B8%93%E0%B8%91%E0%B9%8C%E0%B8%AA%E0%B8%B4%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%98%E0%B8%A3-05-600x400.jpg', shortDesc: 'แหล่งค้นพบรอยตีนไดโนเสาร์อายุกว่า 140 ล้านปี', tags: ['ไดโนเสาร์', 'ธรรมชาติ', 'เดินป่า', 'ครอบครัว'] },
+    { id: 'phrae-wa-silk-village', name: 'หมู่บ้านทอผ้าไหมแพรวา', file: 'phrae-wa-silk-village.html', image: 'https://do.lnwfile.com/_/do/_raw/jz/xq/w8.png', shortDesc: 'แหล่งกำเนิดของ "แพรวา ราชินีแห่งไหม"', tags: ['วัฒนธรรม', 'ผ้าไหม', 'หมู่บ้าน', 'ของฝาก'] },
+    { id: 'wat-phutthanimit', name: 'วัดพุทธนิมิต (ภูค่าว)', file: 'wat-phutthanimit.html', image: 'https://mpics.mgronline.com/pics/Images/561000004305306.JPEG', shortDesc: 'ประดิษฐานพระพุทธไสยาสน์แกะสลักบนแผ่นผา', tags: ['วัด', 'ประวัติศาสตร์', 'โบราณสถาน', 'ชมวิว'] },
+    { id: 'dok-ket-beach', name: 'หาดดอกเกด', file: 'dok-ket-beach.html', image: 'https://static.thairath.co.th/media/dFQROr7oWzulq5FZUEh9wz24CHp4UkHzETUB201n2tMcL1ETeVuv2j12dDjeRWjK17A.webp', shortDesc: '"ทะเลอีสาน" หาดทรายเทียมริมเขื่อนลำปาว', tags: ['ธรรมชาติ', 'พักผ่อน', 'ครอบครัว', 'ริมน้ำ', 'กิจกรรม'] },
+    { id: 'pha-sawoei-viewpoint', name: 'ผาเสวย', file: 'pha-sawoei-viewpoint.html', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPfVXnEuTX5zSdG4_4PJr9EvxNHLVaQJtx5g&s', shortDesc: 'จุดชมวิวบนเทือกเขาภูพาน', tags: ['ธรรมชาติ', 'ชมวิว', 'ภูเขา', 'ถ่ายรูป'] },
+
+    // Restaurants (Updated List)
+    { id: 'ploen-kalasin.html', name: 'เพลิน กาฬสินธุ์', file: 'ploen-kalasin.html', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdCgLyrMwpNLt7OiS7AM7aKSvnp9r0A018Dw&s', shortDesc: 'ร้านอาหารบรรยากาศดี มีดนตรีสด', tags: ['ร้านอาหาร', 'กลางคืน', 'ในเมือง'] },
+    { id: 'the-loft-cafe.html', name: 'The Loft Cafe Kalasin', file: 'the-loft-cafe.html', image: 'https://img.wongnai.com/p/1920x0/2018/11/04/3e3907c089204859bc0df53f5383a151.jpg', shortDesc: 'คาเฟ่สไตล์ลอฟท์ใจกลางเมือง บรรยากาศเท่ๆ', tags: ['คาเฟ่', 'กาแฟ', 'ในเมือง', 'ถ่ายรูป'] },
+    { id: 'berler-shabu.html', name: 'เบ้อเร่อ ชาบูพันธุ์แท้', file: 'berer-shabu.html', image: 'https://lh3.googleusercontent.com/gps-cs-s/AC9h4nozZ7gRoEiLor--_OfHjPdXCm-KdQA6fQzKqoC8Ma4mu0YnPEUaK7TlT4gxnqJ-5j57B4isAMinT8BaQJMloXKRB9CWEqTmRLWSGrF9J24zY7grj-Rr-WPcW6a_AUoGR2OZNBY=w408-h408-k-no', shortDesc: 'ชาบูบุฟเฟ่ต์ราคาย่อมเยา น้ำซุปเข้มข้น เนื้อคุณภาพดี', tags: ['ร้านอาหาร', 'บุฟเฟ่ต์', 'ชาบู', 'ในเมือง'] },
+    { id: 'suk-plai-na-cafe.html', name: 'สุขปลายนา คาเฟ่', file: 'suk-plaina-cafe.html', image: 'https://img.wongnai.com/p/400x0/2021/04/03/14e929371923466390d70cb05c8df921.jpg', shortDesc: 'คาเฟ่บรรยากาศดีกลางทุ่งนา พร้อมเครื่องดื่มและอาหารอร่อย', tags: ['คาเฟ่', 'กาแฟ', 'ธรรมชาติ', 'ถ่ายรูป', 'ร้านอาหาร'] },
+    { id: 'pingfai-kalasin.html', name: 'ร้านอาหารพิงไฟ', file: 'pingfai-restaurant.html', image: 'https://lh3.googleusercontent.com/gps-cs-s/AC9h4np7817Hc6HbDWTCWgtOxmYbzyobHyLSBFtQTyYMONiLrcUqX1Sb4KRcxOxYnCXxCbPBcRJ0eDTkwdRhLvNui63BmaBOJB2sC_k9kPac4dg2N2OM-uKAdoow6LGUwQkfhUPc8VEc-Q=w408-h544-k-no', shortDesc: 'ร้านอาหารไทย-อีสาน บรรยากาศอบอุ่น เหมาะสำหรับครอบครัว', tags: ['ร้านอาหาร', 'อาหารไทย', 'อาหารอีสาน', 'ครอบครัว'] },
+
+    // Accommodations (Updated List)
+    { id: 'Supak', name: 'โรงแรมสุภัค', file: 'Supak.html', image: 'https://img.wongnai.com/p/1920x0/2018/03/24/abe622c80a7a4d83973501f6638c8246.jpg', shortDesc: 'โรงแรมใจกลางเมือง เดินทางสะดวก ราคาคุ้มค่า', tags: ['ที่พัก', 'โรงแรม', 'ในเมือง', 'ราคาประหยัด'] },
+    { id: 'Ratchapruek', name: 'ราชพฤกษ์ รีสอร์ท', file: 'Ratchapruek.html', image: 'https://www.chuwab.com/images/hotel/1/12/3712/bimg_20160602111811.jpg', shortDesc: 'รีสอร์ทบรรยากาศเงียบสงบ เป็นส่วนตัว เหมาะสำหรับการพักผ่อน', tags: ['ที่พัก', 'รีสอร์ท', 'พักผ่อน', 'เป็นส่วนตัว'] },
+    { id: 'q-bis-the-base-kalasin', name: 'โรงแรม คิวบิส เดอะ เบส กาฬสินธุ์', file: 'q-bis-the-base-kalasin.html', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStukjW36CXkc06NxY4XeV9xyDePzQ1uDtA4Q&s', shortDesc: 'โรงแรมสไตล์โมเดิร์นใจกลางเมือง พร้อมสิ่งอำนวยความสะดวกครบครัน', tags: ['ที่พัก', 'โรงแรม', 'ในเมือง', 'ทันสมัย'] },
+    { id: 'dino-inn-hotel', name: 'โรงแรมดิโน่ สตูดิโอ', file: 'dino-inn-hotel.html', image: 'https://pix10.agoda.net/hotelImages/877/877029/877029_15082510150034980462.jpg?ca=5&ce=1&s=414x232', shortDesc: 'โรงแรมดีไซน์เก๋ ตกแต่งในธีมไดโนเสาร์ ไม่เหมือนใคร', tags: ['ที่พัก', 'โรงแรม', 'ไดโนเสาร์', 'ครอบครัว'] },
+    { id: 'Rimpao', name: 'โรงแรมริมปาว', file: 'Rimpao.html', image: 'https://images.trvl-media.com/lodging/17000000/16760000/16759900/16759859/64074b9d.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill', shortDesc: 'โรงแรมมาตรฐานใจกลางเมือง เดินทางสะดวกสบาย', tags: ['ที่พัก', 'โรงแรม', 'ในเมือง', 'ครอบครัว'] }
+];
+
+// --- Step 2: The "Brain" of the recommendation system ---
+// This part should be IDENTICAL on every page, you only change the currentPageId below.
+
+// IMPORTANT: Remember to change this ID to match the current page's ID!
+const currentPageId = 'dino-inn-hotel'; // <<<<----- แก้ไข ID ของหน้านี้ตรงนี้
+
+function findRecommendations() {
+    const currentLocation = allLocations.find(loc => loc.id === currentPageId);
+    if (!currentLocation) return [];
+    const recommendations = [];
+    allLocations.forEach(location => {
+        if (location.id === currentPageId) return;
+        const sharedTags = location.tags.filter(tag => currentLocation.tags.includes(tag));
+        const matchScore = sharedTags.length;
+        if (matchScore > 0) {
+            recommendations.push({ ...location, score: matchScore });
+        }
+    });
+    return recommendations.sort((a, b) => b.score - a.score).slice(0, 3);
+}
+
+function displayRecommendations() {
+    const recommendations = findRecommendations();
+    const container = document.getElementById('recommendations-grid');
+    const section = document.getElementById('recommendations-section');
+    if (!container || recommendations.length === 0) {
+        if(section) section.style.display = 'none';
+        return;
+    }
+    let html = '';
+    recommendations.forEach(rec => {
+        html += `
+            <a href="${rec.file}" class="card-link">
+                <div class="card">
+                    <img src="${rec.image}" alt="${rec.name}">
+                    <div class="card-content">
+                        <h3>${rec.name}</h3>
+                        <p>${rec.shortDesc}</p>
+                    </div>
+                </div>
+            </a>
+        `;
+    });
+    container.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', displayRecommendations);
+</script>
+</body>
+</html>

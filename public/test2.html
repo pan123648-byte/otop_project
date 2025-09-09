@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>นวัตกรรมการท่องเที่ยว | กาฬสินธุ์</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            background-image: url('img/img4.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { background-color: white; padding: 15px 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 998; }
+        .logo { font-size: 24px; font-weight: bold; color: #2c5b4c; }
+        nav a { margin: 0 15px; text-decoration: none; color: #555; font-weight: bold; }
+        .auth-buttons a { text-decoration: none; padding: 8px 16px; border-radius: 20px; margin-left: 10px; }
+        .login-btn { background-color: transparent; border: 2px solid #2c5b4c; color: #2c5b4c; }
+        .signup-btn { background-color: #2c5b4c; color: white; }
+        .hero { background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1624624132214-a28a50ea24b5?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center; color: white; text-align: center; padding: 100px 20px; }
+        .hero h1 { font-size: 48px; margin-bottom: 10px; }
+        .hero p { font-size: 20px; }
+        .section { padding: 60px 0; }
+        .section-title { text-align: center; font-size: 36px; color: #111; background: rgba(255, 255, 255, 0.5); padding: 10px; border-radius: 10px; display: inline-block; }
+        .section-title-wrapper { text-align: center; margin-bottom: 40px; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: rgba(255, 255, 255, 0.25); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.18); overflow: hidden; transition: transform 0.3s ease; display: flex; flex-direction: column; height: 100%; }
+        .card:hover { transform: translateY(-10px); }
+        .card-link { text-decoration: none; color: inherit; }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 20px; flex-grow: 1; }
+        .card-content h3 { margin-top: 0; color: #000; }
+        .card-content p { color: #111; }
+        .review-summary { display: flex; align-items: center; gap: 15px; margin: 10px 0; font-size: 16px; }
+        .stars { color: #ffc107; }
+        .review-text .score { font-weight: bold; color: #111; }
+        .review-text .review-count { color: #333; margin-left: 8px; }
+        .video-container { text-align: center; margin-top: 40px; }
+        .back-to-top { position: fixed; bottom: 20px; right: 20px; background-color: #2c5b4c; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; text-decoration: none; opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s; z-index: 999; }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        footer { background-color: #2c5b4c; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+        
+        /* --- Gemini Chatbot Styles --- */
+        #planner-icon { position: fixed; bottom: 30px; right: 30px; background-color: #4285F4; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 28px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1001; transition: all 0.3s ease; }
+        #planner-icon:hover { transform: scale(1.1); }
+        #planner-window { position: fixed; bottom: 100px; right: 30px; width: 400px; max-width: 90vw; height: 600px; max-height: calc(100vh - 120px); background-color: #fff; border-radius: 15px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden; z-index: 1000; transform: scale(0); transform-origin: bottom right; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #planner-window.open { transform: scale(1); }
+        .planner-header { background: linear-gradient(135deg, #4285F4, #34A853, #FBBC05, #EA4335); color: white; padding: 15px; text-align: center; }
+        .planner-header h3 { margin: 0; font-size: 18px; font-weight: bold; }
+        .planner-body { flex-grow: 1; padding: 15px; overflow-y: auto; background-color: #f1f2f6; }
+        .chat-message { margin-bottom: 15px; max-width: 85%; word-wrap: break-word; line-height: 1.6; }
+        .chat-message.user { margin-left: auto; background-color: #4285F4; color: white; padding: 10px 15px; border-radius: 20px 5px 20px 20px; }
+        .chat-message.bot { margin-right: auto; background-color: #ffffff; color: #333; padding: 10px 15px; border-radius: 5px 20px 20px 20px; }
+        .chat-message.bot strong { color: #2c5b4c; }
+        .planner-input-area { display: flex; border-top: 1px solid #ddd; padding: 10px; align-items: center; }
+        #chat-input { flex-grow: 1; border: 1px solid #ccc; border-radius: 20px; padding: 10px 15px; font-family: 'Sarabun', sans-serif; font-size: 16px; outline: none; }
+        #send-button { background: #4285F4; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; margin-left: 10px; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: background-color 0.2s; }
+        #send-button:hover { background-color: #357ae8; }
+        .loading-indicator { display: flex; align-items: center; justify-content: flex-start; padding: 10px 0; }
+        .loading-indicator span { width: 8px; height: 8px; margin: 0 3px; background-color: #aaa; border-radius: 50%; display: inline-block; animation: bounce 1.4s infinite ease-in-out both; }
+        .loading-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+        .map-container iframe { width: 100%; height: 250px; border-radius: 10px; border: 1px solid #ddd; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-to-top">▲</a>
+
+    <header>
+        <div class="logo">Moonlight</div>
+        <nav>
+            <a href="#attractions">ที่ท่องเที่ยว</a>
+            <a href="#restaurants">ร้านอาหาร</a>
+            <a href="#accommodations">ห้องพัก</a>
+        </nav>
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn">เข้าสู่ระบบ</a>
+            <a href="signup.html" class="signup-btn">สมัครสมาชิก</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>นวัตกรรมการท่องเที่ยว จังหวัดกาฬสินธุ์</h1>
+        <p>สัมผัสมิติใหม่ของการเดินทาง ค้นพบทุกความมหัศจรรย์ด้วยปลายนิ้ว</p>
+    </section>
+
+    <main class="container">
+        </main>
+
+    <div class="video-container"> 
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/Or3TOTkaDYw?si=WC_dOBXbqLoEQfVc&start=15" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+
+    <footer>
+        <p>© 2025 Kalasin Tourism Innovation Project | จัดทำเพื่อการศึกษา</p>
+    </footer>
+
+    <div id="planner-icon">🦖</div>
+    <div id="planner-window">
+        <div class="planner-header">
+            <h3>น้องไดโนช่วยแนะนำ!</h3>
+        </div>
+        <div class="planner-body" id="planner-body"></div>
+        <div class="planner-input-area">
+            <input type="text" id="chat-input" placeholder="ถามเรื่องเที่ยวกาฬสินธุ์...">
+            <button id="send-button"><i class="fa fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <script>
+        // Scripts for back-to-top, fade-in, etc.
+        document.addEventListener("DOMContentLoaded", function() {
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            if (!!window.IntersectionObserver) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                fadeInElements.forEach(el => observer.observe(el));
+            }
+
+            const backToTopButton = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+        });
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered', reg))
+                    .catch(err => console.log('Service Worker not registered', err));
+            });
+        }
+    </script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const plannerIcon = document.getElementById('planner-icon');
+        const plannerWindow = document.getElementById('planner-window');
+        const plannerBody = document.getElementById('planner-body');
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+
+        if (!plannerIcon || !plannerWindow || !plannerBody || !chatInput || !sendButton) {
+            console.error("Gemini Chatbot HTML elements not found!");
+            return;
+        }
+
+        // !!! ================================================= !!!
+        // !!! สำคัญมาก: กรุณาใส่ API Key ที่ถูกต้องของคุณที่นี่ !!!
+        // !!! ================================================= !!!
+        const API_KEY = "YOUR_GEMINI_API_KEY_HERE"; // <--- แก้ไขตรงนี้
+        
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+
+        // สอน AI ให้รู้จักบทบาทและข้อมูลพื้นฐาน
+        const systemInstruction = `
+            คุณคือ "น้องไดโน" เป็น AI ผู้ช่วยแนะนำการท่องเที่ยวจังหวัดกาฬสินธุ์โดยเฉพาะ คุณต้องพูดจาเป็นมิตร สนุกสนาน และลงท้ายด้วย ครับ/ค่ะ เสมอ
+            ข้อมูลสำคัญเกี่ยวกับกาฬสินธุ์ที่คุณต้องรู้:
+            - ที่เที่ยวเด่น: พิพิธภัณฑ์สิรินธร (ค่าเข้าคนไทย ผู้ใหญ่ 40 บาท เด็ก 10 บาท), พระธาตุยาคู (เข้าชมฟรี), สะพานเทพสุดา (จุดชมวิวสวยงามบนเขื่อนลำปาว), วัดวังคำ (ศิลปะคล้ายวัดที่หลวงพระบาง), หมู่บ้านทอผ้าไหมแพรวาบ้านโพน (แหล่งซื้อของฝาก)
+            - ของกินเด็ด: ไดโนเสาร์ย่าง (จริงๆ คือไก่ย่าง), ส้มตำ, ปลาส้ม
+            - ที่พัก: มีหลากหลายตั้งแต่โรงแรมในเมืองไปจนถึงรีสอร์ทธรรมชาติ
+            หน้าที่ของคุณ:
+            1. ตอบคำถามเกี่ยวกับการท่องเที่ยวในกาฬสินธุ์อย่างเป็นมิตร
+            2. ช่วยวางแผนการท่องเที่ยวสั้นๆ ตามที่ผู้ใช้ร้องขอ เช่น "จัดทริป 1 วันให้หน่อย"
+            3. บอกราคาประมาณการได้ เช่น ค่าเข้าชม (ถ้าไม่รู้ให้บอกว่า "ราคาอาจเปลี่ยนแปลงได้ ลองตรวจสอบดูอีกครั้งนะครับ")
+            4. **คำสั่งพิเศษ**: หากผู้ใช้ขอแผนที่ หรือถามทางไปสถานที่ใดสถานที่หนึ่ง ให้คุณตอบกลับด้วยข้อความ "[MAP:ชื่อสถานที่]" เท่านั้น เช่น "[MAP:พิพิธภัณฑ์สิรินธร]" แล้วระบบจะแปลงเป็นแผนที่ให้เอง
+            5. ถ้าไม่รู้คำตอบ ให้ตอบอย่างสุภาพว่า "โอ๊ะ! น้องไดโนยังไม่มีข้อมูลส่วนนี้เลยครับ ขออภัยด้วยนะครับ" และอย่าตอบข้อมูลที่ไม่เกี่ยวข้องกับกาฬสินธุ์เด็ดขาด
+        `;
+        let conversationHistory = [{ role: "user", parts: [{ text: systemInstruction }] }, { role: "model", parts: [{ text: "สวัสดีครับ! ผมน้องไดโนเอง 🦖 มีอะไรให้ช่วยบอกได้เลยนะครับ อยากไปเที่ยวไหนในกาฬสินธุ์เอ่ย?" }] }];
+
+        plannerIcon.addEventListener('click', () => {
+            plannerWindow.classList.toggle('open');
+            if (plannerWindow.classList.contains('open') && plannerBody.children.length === 0) {
+                addMessageToChat('bot', conversationHistory[1].parts[0].text);
+            }
+        });
+
+        sendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        async function sendMessage() {
+            const userMessage = chatInput.value.trim();
+            if (!userMessage) return;
+
+            if (!API_KEY || API_KEY === "YOUR_GEMINI_API_KEY_HERE") {
+                addMessageToChat('bot', 'ขออภัยครับ ดูเหมือนว่ายังไม่ได้ตั้งค่า API Key ให้น้องไดโนเลยครับ กรุณาใส่ API Key ที่ถูกต้องในโค้ดก่อนนะครับ');
+                return;
+            }
+
+            addMessageToChat('user', userMessage);
+            chatInput.value = '';
+            showLoading(true);
+            conversationHistory.push({ role: "user", parts: [{ text: userMessage }] });
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: conversationHistory })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('API Error Response:', errorData);
+                    throw new Error(`API error! status: ${response.status}. ${errorData.error.message}`);
+                }
+                
+                const data = await response.json();
+                if (!data.candidates || data.candidates.length === 0) {
+                     // ตรวจสอบ safetyRatings กรณีที่เนื้อหาถูกบล็อก
+                    if(data.promptFeedback && data.promptFeedback.blockReason) {
+                        console.error('Content blocked:', data.promptFeedback.blockReason);
+                        throw new Error('Response was blocked for safety reasons.');
+                    }
+                    throw new Error('No response from API.');
+                }
+                const botResponse = data.candidates[0].content.parts[0].text;
+                
+                conversationHistory.push({ role: "model", parts: [{ text: botResponse }] });
+                showLoading(false);
+                processBotResponse(botResponse);
+
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                showLoading(false);
+                addMessageToChat('bot', 'อุ๊ย! สัญญาณขาดหาย ขออภัยครับน้องไดโนมีปัญหาเล็กน้อย ลองใหม่อีกครั้งนะครับ (อาจเกิดจาก API Key ไม่ถูกต้องหรือเครือข่ายมีปัญหาครับ)');
+            }
+        }
+
+        function processBotResponse(response) {
+            if (response.startsWith('[MAP:')) {
+                const place = response.substring(5, response.length - 1).trim();
+                addMessageToChat('bot', `จัดไปเลย! นี่คือแผนที่สำหรับไปที่ '${place}' ครับผม`);
+                addMapToChat(place);
+            } else {
+                addMessageToChat('bot', response);
+            }
+        }
+
+        function addMessageToChat(sender, message) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            // ใช้ Markdown-it library เพื่อแปลง Markdown เป็น HTML
+            messageDiv.innerHTML = window.markdownit().render(message);
+            plannerBody.appendChild(messageDiv);
+            plannerBody.scrollTop = plannerBody.scrollHeight;
+        }
+        
+        function addMapToChat(place) {
+            const mapContainer = document.createElement('div');
+            mapContainer.className = 'map-container';
+            mapContainer.innerHTML = `<iframe loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=${encodeURIComponent(place + ", กาฬสินธุ์")}&output=embed"></iframe>`;
+            plannerBody.appendChild(mapContainer);
+            plannerBody.scrollTop = plannerBody.scrollHeight;
+        }
+
+        function showLoading(isLoading) {
+            let loadingIndicator = plannerBody.querySelector('.loading-indicator');
+            if (isLoading) {
+                if (!loadingIndicator) {
+                    loadingIndicator = document.createElement('div');
+                    loadingIndicator.className = 'loading-indicator';
+                    loadingIndicator.innerHTML = '<span></span><span></span><span></span>';
+                    plannerBody.appendChild(loadingIndicator);
+                    plannerBody.scrollTop = plannerBody.scrollHeight;
+                }
+            } else {
+                if (loadingIndicator) loadingIndicator.remove();
+            }
+        }
+    });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/14.1.0/markdown-it.min.js"></script>
+
+</body>
+</html>
